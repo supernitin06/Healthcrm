@@ -1,5 +1,7 @@
 import { body } from "express-validator";
 
+
+
 export const registerValidation = [
     body("username")
         .isString()
@@ -20,6 +22,9 @@ export const registerValidation = [
         .isLength({ min: 6 })
         .withMessage("Password must be at least 6 characters long"),
 ];
+
+
+
 
 export const registerStaffValidation = [
     body("username")

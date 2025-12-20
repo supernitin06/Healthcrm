@@ -1,4 +1,6 @@
 import { registerUser, loginUser } from "./auth.service.js";
+import jwt from "jsonwebtoken";
+
 
 export const registerUserController = async (req, res) => {
   try {
@@ -11,15 +13,23 @@ export const registerUserController = async (req, res) => {
   }
 };
 
-export const loginUserController = async (req, res) => {
+export const loginController = async (req, res) => {
   try {
     const user = await loginUser(req.body.email, req.body.password);
-    res.status(200).json(user);
-    if(!user) {
+    if (!user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
-    const token = jwt.sign({id : user.id , user: user }, process.env.secret_key, { expiresIn: "1h" }) ;
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role_id: user.role_id
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
     res.cookie("token", token);
+    res.status(200).json({ token, user });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

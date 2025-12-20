@@ -1,12 +1,17 @@
 import express from "express";
 import cors from "cors";
 import apiroutes from "./src/routes/apiroutes.js";
+import dotenv from "dotenv";
+
+
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 // Middleware for parsing JSON bodies
 app.use(express.json());
-
+app.use(cookieParser());
+dotenv.config();
 
 app.use('/api', apiroutes);
 

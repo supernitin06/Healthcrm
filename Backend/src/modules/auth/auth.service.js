@@ -1,7 +1,5 @@
 import pool from "../../../db/config.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
 
 
 export const registerUser = async ({ username, email, password, role_id }, creator) => {
@@ -9,10 +7,10 @@ export const registerUser = async ({ username, email, password, role_id }, creat
   if(!username || !email || !password) {
     throw new Error("All fields are required");
   }
-
+  const hashedPassword = await bcrypt.hash(password, 10);
+  
   if (!creator) {
     // self-registration
-    const hashedPassword = await bcrypt.hash(password, 10);
     const { rows } = await pool.query(`
       INSERT INTO users (username, email, password, role_id)
       VALUES ($1, $2, $3, (SELECT id FROM roles WHERE name='user'))

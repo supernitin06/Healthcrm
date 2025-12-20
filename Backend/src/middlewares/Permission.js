@@ -8,7 +8,7 @@ export const can = (permission) => {
       if (role_permission.rows.length > 0) {
         next();
       } else {
-        res.status(403).json({ message: "Forbidden" });
+        res.status(403).json({ message: "you dont have permission to perform this action  " });
       }
     }
     
