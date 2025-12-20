@@ -1,0 +1,13 @@
+/node_modules
+.env
+/dist
+.DS_Store       
+/logs
+*.log
+
+/coverage
+/.tmp
+/.vscode
+.idea
+/.nyc_output
+npm-debug.log*
