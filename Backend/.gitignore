@@ -4,7 +4,7 @@
 .DS_Store       
 /logs
 *.log
-
+.env*
 /coverage
 /.tmp
 /.vscode
