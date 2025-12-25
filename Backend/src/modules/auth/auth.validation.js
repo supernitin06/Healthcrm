@@ -50,6 +50,11 @@ export const registerStaffValidation = [
         .withMessage("Role ID is required")
         .isNumeric()
         .withMessage("Role ID must be numeric"),
+    body("role_name")
+        .notEmpty()
+        .withMessage("Role Name is required")
+        .isString()
+        .withMessage("Role Name must be string"),
 ];
 
 export const loginValidation = [
