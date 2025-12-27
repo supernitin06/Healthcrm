@@ -1,4 +1,4 @@
-import { registerUser, loginUser } from "./auth.service.js";
+import { registerUser, loginUser } from "./authuser.service.js";
 import jwt from "jsonwebtoken";
 import { sendemail } from "../../../utils/email.js";
 

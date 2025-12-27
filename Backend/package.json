@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "swagger-autogen": "node config/swagger-autogen.js"
+    "swagger-autogen": "node config/swagger-autogen.js",
+    "start": "node index.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

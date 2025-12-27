@@ -10,7 +10,7 @@ const doc = {
   },
   servers: [
     {
-      url: 'http://localhost:5000',
+      url: 'https://healthcrm.onrender.com',
       description: 'Local server',
     },
   ],

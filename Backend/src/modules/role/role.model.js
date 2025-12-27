@@ -24,7 +24,7 @@ export const insertDefaultRoles = async () => {
     ('user'),
     ('admin'),
     ('superadmin'),
-    ('staff')
+    ('employee')
     ON CONFLICT (name) DO NOTHING;
     `;
 
@@ -35,7 +35,3 @@ export const insertDefaultRoles = async () => {
         console.error("❌ Error inserting roles", error);
     }
 };
-
-
-
-

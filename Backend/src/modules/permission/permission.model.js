@@ -3,7 +3,10 @@ import pool from "../../../db/config.js";
 export const createPermissionTable = async () => {
   const query = `CREATE TABLE IF NOT EXISTS permissions (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(100) UNIQUE NOT NULL
+        name VARCHAR(100) UNIQUE NOT NULL,
+        permission_type VARCHAR(50) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`;
   try {
     await pool.query(query);
@@ -16,31 +19,31 @@ export const createPermissionTable = async () => {
 
 export const insertDefaultRolePermissions = async () => {
   const query = `
-    INSERT INTO permissions (name)
+    INSERT INTO permissions (name, permission_type)
     VALUES
-      ('CREATE_STAFF'),
-      ('DELETE_STAFF'),
-      ('UPDATE_STAFF'),
-      ('VIEW_STAFF'),
-      ('CREATE_USER'),
-      ('DELETE_USER'),
-      ('UPDATE_USER'),
-      ('VIEW_USERS'),
-      ('CREATE_ROLE'),
-      ('UPDATE_ROLE'),
-      ('DELETE_ROLE'),
-      ('CREATE_ROLE'),
-      ('CREATE_TEAM'),
-      ('DELETE_TEAM'),
-      ('UPDATE_TEAM'),
-      ('VIEW_TEAMS'),
-      ('CREATE_PLAN'),
-      ('UPDATE_PLAN'),
-      ('DELETE_PLAN'),
-      ('CREATE_TEAM'),
-      ('DELETE_TEAM'),
-      ('UPDATE_TEAM'),
-      ('VIEW_TEAMS')
+      ('CREATE_EMPLOYEE','employee'),
+      ('DELETE_EMPLOYEE','employee'),
+      ('UPDATE_EMPLOYEE','employee'),
+      ('VIEW_EMPLOYEE','employee'),
+
+      ('CREATE_USER','user'),
+      ('DELETE_USER','user'),
+      ('UPDATE_USER','user'),
+      ('VIEW_USERS','user'),
+
+      ('CREATE_ROLE','role'),
+      ('UPDATE_ROLE','role'),
+      ('DELETE_ROLE','role'),
+
+      ('CREATE_TEAM','team'),
+      ('DELETE_TEAM','team'),
+      ('UPDATE_TEAM','team'),
+      ('VIEW_TEAMS','team'),
+
+      ('CREATE_PLAN','plan'),
+      ('UPDATE_PLAN','plan'),
+      ('DELETE_PLAN','plan')
+
     ON CONFLICT (name) DO NOTHING;
   `;
 
@@ -80,5 +83,3 @@ export const createRolePermissionTable = async () => {
     console.error("❌ Error creating role_permissions table", error);
   }
 };
-
-
