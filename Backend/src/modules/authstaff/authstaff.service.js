@@ -53,3 +53,43 @@ const loginStaff = async (email, password) => {
 };
 
 export { loginStaff };
+
+
+export const updateStaff = async (id, { username, email, password, role_id }) => {
+    const { rows } = await pool.query(
+        `
+    UPDATE staff
+    SET username = $1,
+        email = $2,
+        password = $3,
+        role_id = $4
+    WHERE id = $5
+    RETURNING id, username, email, role_name, created_at;
+    `,
+        [username, email, password, role_id, id]
+    );
+    return rows[0];
+};
+
+
+export const getStaff = async () => {
+    const { rows } = await pool.query(
+        `
+    SELECT * FROM staff
+    `
+    );
+    return rows;
+};
+
+
+export const getStaffById = async (id) => {
+    const { rows } = await pool.query(
+        `
+    SELECT * FROM staff WHERE id = $1
+    `,
+        [id]
+    );
+    return rows[0];
+};
+
+

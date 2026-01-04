@@ -14,12 +14,25 @@ const doc = {
       description: 'Local server',
     },
   ],
-//  tags: [
-//   { name: 'Auth', description: 'Authentication APIs' },
-//   { name: 'Roles', description: 'Role management APIs' },
-//   { name: 'Permissions', description: 'Permission management APIs' },
-//   { name: 'Teams', description: 'Team management APIs' },
-// ],
+  tags: [
+    {
+      name: 'staff',
+
+      description: 'Staff Management'
+    },
+    { name: 'Auth', description: 'Authentication' },
+    { name: 'Roles', description: 'Role Management' },
+    { name: 'Permissions', description: 'Permission Management' },
+    { name: 'Teams', description: 'Team Management' },
+    { name: 'Employee', description: 'Employee Management' },
+    { name: 'Insurance', description: 'Insurance Management' },
+    { name: 'Offers', description: 'Offers Management' },
+    { name: 'UsersOffers', description: 'UsersOffers Management' },
+    { name: 'HealthTests', description: 'Health Tests Management' },
+    { name: 'UserHealthTests', description: 'User Health Tests Management' },
+    { name: 'HealthPackages', description: 'Health Packages Management' },
+    { name: 'UserHealthPackages', description: 'User Health Packages Management' },
+  ],
 
   components: {
     securitySchemes: {

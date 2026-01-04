@@ -25,6 +25,10 @@ export const insertDefaultRolePermissions = async () => {
       ('DELETE_EMPLOYEE','employee'),
       ('UPDATE_EMPLOYEE','employee'),
       ('VIEW_EMPLOYEE','employee'),
+      ('GET_EMPLOYEES', 'employee'),
+      ('GET_EMPLOYEE', 'employee'),
+      ('ADD_EMPLOYEE_TO_TEAM', 'employee'),
+      ('REMOVE_EMPLOYEE_FROM_TEAM', 'employee'),
 
       ('CREATE_USER','user'),
       ('DELETE_USER','user'),
@@ -42,7 +46,24 @@ export const insertDefaultRolePermissions = async () => {
 
       ('CREATE_PLAN','plan'),
       ('UPDATE_PLAN','plan'),
-      ('DELETE_PLAN','plan')
+      ('DELETE_PLAN','plan'),
+
+      ('CREATE_HEALTH_TEST','health_test'),
+      ('UPDATE_HEALTH_TEST','health_test'),
+      ('DELETE_HEALTH_TEST','health_test'),
+      ('GET_HEALTH_TEST','health_test'),
+      ('ASSIGN_HEALTH_TEST','health_test'),
+      ('GET_ASSIGNED_HEALTH_TEST','health_test'),
+      ('UPDATE_ASSIGNED_HEALTH_TEST','health_test'),
+      ('DELETE_ASSIGNED_HEALTH_TEST','health_test'),
+
+      ('CREATE_HEALTH_PACKAGE','health_package'),
+      ('UPDATE_HEALTH_PACKAGE','health_package'),
+      ('DELETE_HEALTH_PACKAGE','health_package'),
+      ('GET_HEALTH_PACKAGE','health_package'),
+      ('ASSIGN_HEALTH_PACKAGE','health_package'),
+      ('GET_ASSIGNED_HEALTH_PACKAGE','health_package'),
+      ('DELETE_ASSIGNED_HEALTH_PACKAGE','health_package')
 
     ON CONFLICT (name) DO NOTHING;
   `;

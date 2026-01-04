@@ -5,9 +5,9 @@ import { sendemail } from "../../../utils/email.js";
 
 export const registerUserController = async (req, res) => {
   try {
-    const creator = req.user || null;
+    
 
-    const user = await registerUser(req.body, creator);
+    const user = await registerUser(req.body);
     
     if (user) {
       try {
@@ -51,7 +51,6 @@ export const loginController = async (req, res) => {
     const token = jwt.sign(
       {
         id: user.id,
-        role_id: user.role_id
       },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
@@ -63,6 +62,40 @@ export const loginController = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+
+export const updateUserController = async (req, res) => {
+  try { 
+    const user = await updateUser(req.body.id, req.body);
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+}
+
+export const getUserController = async (req, res) => {
+  try { 
+    const user = await getUser();
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+} 
+
+
+export const getUserByIdController = async (req, res) => {
+  try { 
+    const user = await getUserById(req.params.id);
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+} 
+
+
+
+
+
 
 // export const forgotPasswordController = async (req,res){
 //   try {

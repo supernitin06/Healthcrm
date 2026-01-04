@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { can } from "../../middlewares/Permission.js";
-import { registerUserController } from "./authuser.control.js";
+import { getUserByIdController, getUserController, registerUserController, updateUserController } from "./authuser.control.js";
 import { registerValidation } from "./authuser.validation.js";
 import { validateRequest } from "../../middlewares/validateRequest.js";
 import { loginController } from "./authuser.control.js";
@@ -30,7 +30,7 @@ router.post("/register",
             }
         } 
     */
-    registerValidation, validateRequest, registerUserController);
+registerValidation, validateRequest, registerUserController);
 
 
 
@@ -39,6 +39,31 @@ router.post("/login",
         #swagger.tags = ['Auth']
        
     */
-    loginValidation, validateRequest, loginController);
+loginValidation, validateRequest, loginController);
+
+router.put("/updateuser/:id", authMiddleware,
+    /* 
+        #swagger.tags = ['Auth']
+       
+    */
+updateUserController);
+
+
+router.get("/getuser", authMiddleware,
+    /* 
+        #swagger.tags = ['Auth']
+       
+    */
+getUserController);
+
+
+router.get("/getuser/:id", authMiddleware,
+    /* 
+        #swagger.tags = ['Auth']
+       
+    */
+getUserByIdController);
+
+
 
 export default router;

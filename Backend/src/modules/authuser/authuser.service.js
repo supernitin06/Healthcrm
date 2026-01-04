@@ -12,15 +12,13 @@ export const registerUser = async ({ username, email, password }) => {
 
   const { rows } = await pool.query(
     `
-    INSERT INTO users (username, email, password, role_id, role_name)
+    INSERT INTO users (username, email, password) 
     VALUES (
       $1,
       $2,
-      $3,
-      (SELECT id FROM roles WHERE name = 'user'),
-      'user'
+      $3
     )
-    RETURNING id, username, email, role_name, created_at;
+    RETURNING id, username, email, created_at;
     `,
     [username, email, hashedPassword]
   );
@@ -48,3 +46,38 @@ const loginUser = async (email, password) => {
 };
 
 export { loginUser };
+
+
+export const updateUser = async (id, { username, email, password }) => {
+    const { rows } = await pool.query(
+        `
+    UPDATE users
+    SET username = $1,
+        email = $2,
+        password = $3
+    WHERE id = $4
+    RETURNING id, username, email, created_at;
+    `,
+        [username, email, password, id]
+    );
+    return rows[0];
+};
+
+export const getUser = async () => {
+    const { rows } = await pool.query(
+        `
+    SELECT * FROM users
+    `
+    );
+    return rows;
+};
+
+export const getUserById = async (id) => {
+    const { rows } = await pool.query(
+        `
+    SELECT * FROM users WHERE id = $1
+    `,
+        [id]
+    );
+    return rows[0];
+};
