@@ -113,6 +113,7 @@ export const addTestToPackage = async (packageId, healthTestId) => {
     const query = `
     INSERT INTO health_package_tests (package_id, health_test_id)
     VALUES ($1, $2)
+    ON CONFLICT (package_id, health_test_id) DO NOTHING
     RETURNING *;
   `;
     try {

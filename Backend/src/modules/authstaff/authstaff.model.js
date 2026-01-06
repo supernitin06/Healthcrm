@@ -17,7 +17,7 @@ export const createStaffTable = async () => {
 
       is_active BOOLEAN DEFAULT true,
       last_login TIMESTAMP, 
- 
+    
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

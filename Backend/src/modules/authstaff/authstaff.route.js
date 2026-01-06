@@ -17,8 +17,7 @@ router.post("/registerstaff",
     router.post("/loginstaff",
     /* 
         #swagger.tags = ['staff'] 
-    */
-    authMiddleware, can("LOGIN_STAFF"), loginStaffcontroller);
+    */ loginStaffcontroller);
     
     router.put("/updatestaff/:id", authMiddleware,
     /* 

@@ -21,9 +21,9 @@ export const createRoleTable = async () => {
 export const insertDefaultRoles = async () => {
     const query = `
     INSERT INTO roles (name) VALUES
+    ('superadmin'),
     ('user'),
     ('admin'),
-    ('superadmin'),
     ('employee')
     ON CONFLICT (name) DO NOTHING;
     `;
