@@ -24,7 +24,8 @@ export const insertDefaultRoles = async () => {
     ('superadmin'),
     ('user'),
     ('admin'),
-    ('employee')
+    ('employee'),
+    ('staff')
     ON CONFLICT (name) DO NOTHING;
     `;
 

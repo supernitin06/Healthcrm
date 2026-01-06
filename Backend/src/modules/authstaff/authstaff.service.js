@@ -34,7 +34,7 @@ export const registerStaff = async ({ username, email, password, role_id }) => {
 
 
 
-const loginStaff = async (email, password) => {
+const loginStaff = async ({ email, password }) => {
     const { rows } = await pool.query(
         `
     SELECT * FROM staff WHERE email = $1 

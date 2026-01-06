@@ -25,7 +25,7 @@ export const loginStaffcontroller = async (req, res) => {
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
-
+            user.token = token;
             res.cookie("token", token);
             res.status(200).json({ token, user });
         }

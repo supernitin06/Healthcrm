@@ -35,6 +35,11 @@ export const insertDefaultRolePermissions = async () => {
       ('UPDATE_USER','user'),
       ('VIEW_USERS','user'),
 
+      ('CREATE_STAFF','staff'),
+      ('DELETE_STAFF','staff'),
+      ('UPDATE_STAFF','staff'),
+      ('GET_STAFF','staff'),
+
       ('CREATE_ROLE','role'),
       ('UPDATE_ROLE','role'),
       ('DELETE_ROLE','role'),

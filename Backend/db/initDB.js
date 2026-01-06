@@ -11,6 +11,7 @@ import { createOfferTable, UsersOfferTable } from "../src/modules/offers/offer.m
 import { createHealthTestTable, UserHealthTestTable } from "../src/modules/health_test/health_test.model.js";
 import { createHealthPackageTable, createHealthPackageTestsTable, UserHealthPackageTable } from "../src/modules/health_package/health_package.model.js";
 import { createIndexes } from "./indexes.js";
+import { seedRolePermissions } from "../src/seeder/roles.seed.js";  
 
 export const initDB = async () => {
 
@@ -34,6 +35,7 @@ export const initDB = async () => {
   await createHealthPackageTable();
   await createHealthPackageTestsTable();
   await UserHealthPackageTable();
+  await seedRolePermissions();
 
   // CREATE INDEXES
   await createIndexes();

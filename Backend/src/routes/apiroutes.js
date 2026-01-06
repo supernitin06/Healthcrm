@@ -11,11 +11,11 @@ import healthTestRoutes from "../modules/health_test/health_test.route.js";
 import healthPackageRoutes from "../modules/health_package/health_package.route.js";
 const router = Router();
 
+router.use("/staff", staffRoutes);
 router.use("/auth", authRoutes);
 router.use("/roles", roleRoutes);
 router.use("/permissions", permissionRoutes);
 router.use("/teams", teamRoutes);
-router.use("/staff", staffRoutes);
 router.use("/employees", employeeRoutes);
 router.use("/insurance", insuranceRoutes);
 router.use("/offers", offerRoutes);

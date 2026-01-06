@@ -14,24 +14,24 @@ router.post("/registerstaff",
     authMiddleware, can("CREATE_STAFF"), registerStaffValidation, validateRequest, registerStaffcontroller);
 
 
-    router.post("/loginstaff",
+router.post("/loginstaff",
     /* 
         #swagger.tags = ['staff'] 
     */ loginStaffcontroller);
-    
-    router.put("/updatestaff/:id", authMiddleware,
+
+router.put("/updatestaff/:id", authMiddleware,
     /* 
         #swagger.tags = ['staff'] 
     */
     authMiddleware, can("UPDATE_STAFF"), updateStaffcontroller);
 
-    router.get("/getstaff", authMiddleware,
+router.get("/getstaff", authMiddleware,
     /* 
         #swagger.tags = ['staff'] 
     */
     authMiddleware, can("GET_STAFF"), getStaffcontroller);
 
-    router.get("/getstaff/:id", authMiddleware,
+router.get("/getstaff/:id", authMiddleware,
     /* 
         #swagger.tags = ['staff'] 
     */
