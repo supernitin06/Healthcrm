@@ -11,11 +11,11 @@ const doc = {
   servers: [
     {
       url: 'http://localhost:5000',
-      description: 'Local server',
+      description: 'Local Development',
     },
     {
       url: 'https://healthcrm.onrender.com',
-      description: 'Render server',
+      description: 'Production Server',
     },
   ],
   tags: [

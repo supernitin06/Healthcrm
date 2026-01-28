@@ -11,7 +11,7 @@ router.post("/registerstaff",
     /* 
         #swagger.tags = ['staff'] 
     */
- registerStaffValidation, validateRequest, registerStaffcontroller);
+authMiddleware,can("CREATE_STAFF"), registerStaffValidation, validateRequest, registerStaffcontroller);
 
 
 router.post("/loginstaff",
