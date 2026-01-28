@@ -9,6 +9,9 @@ import insuranceRoutes from "../modules/insurance/insaurance.route.js";
 import offerRoutes from "../modules/offers/offer.route.js";
 import healthTestRoutes from "../modules/health_test/health_test.route.js";
 import healthPackageRoutes from "../modules/health_package/health_package.route.js";
+import doctorRoutes from "../modules/doctor/doctors.route.js";
+import medicalHistoryRoutes from "../modules/medical_history/medical_history.route.js";
+import ratingRoutes from "../modules/rating/rating.route.js";
 const router = Router();
 
 router.use("/staff", staffRoutes);
@@ -21,6 +24,10 @@ router.use("/insurance", insuranceRoutes);
 router.use("/offers", offerRoutes);
 router.use("/health-tests", healthTestRoutes);
 router.use("/health-packages", healthPackageRoutes);
+router.use("/doctors", doctorRoutes);
+router.use("/medical-history", medicalHistoryRoutes);
+router.use("/ratings", ratingRoutes);
+// router.use("/doctor-patient", doctorRoutes);
 // router.use("/admin", adminRoutes);
 
 export default router;

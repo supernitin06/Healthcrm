@@ -10,8 +10,12 @@ const doc = {
   },
   servers: [
     {
-      url: 'https://healthcrm.onrender.com',
+      url: 'http://localhost:5000',
       description: 'Local server',
+    },
+    {
+      url: 'https://crm-backend.onrender.com',
+      description: 'Render server',
     },
   ],
   tags: [
@@ -32,6 +36,10 @@ const doc = {
     { name: 'UserHealthTests', description: 'User Health Tests Management' },
     { name: 'HealthPackages', description: 'Health Packages Management' },
     { name: 'UserHealthPackages', description: 'User Health Packages Management' },
+    { name: 'Doctors', description: 'Doctors Management' },
+    { name: 'Doctors_Appoitments', description: 'Doctors Appoitments Management' },
+    { name: 'MedicalHistory', description: 'Medical History Management' },
+    { name: 'Ratings', description: 'Ratings Management' },
   ],
 
   components: {

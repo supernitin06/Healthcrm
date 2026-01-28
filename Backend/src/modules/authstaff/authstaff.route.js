@@ -11,14 +11,14 @@ router.post("/registerstaff",
     /* 
         #swagger.tags = ['staff'] 
     */
-    authMiddleware, can("CREATE_STAFF"), registerStaffValidation, validateRequest, registerStaffcontroller);
+ registerStaffValidation, validateRequest, registerStaffcontroller);
 
 
 router.post("/loginstaff",
     /* 
         #swagger.tags = ['staff'] 
     */ loginStaffcontroller);
-
+ 
 router.put("/updatestaff/:id", authMiddleware,
     /* 
         #swagger.tags = ['staff'] 

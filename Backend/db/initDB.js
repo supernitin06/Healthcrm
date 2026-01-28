@@ -11,8 +11,11 @@ import { createOfferTable, UsersOfferTable } from "../src/modules/offers/offer.m
 import { createHealthTestTable, UserHealthTestTable } from "../src/modules/health_test/health_test.model.js";
 import { createHealthPackageTable, createHealthPackageTestsTable, UserHealthPackageTable } from "../src/modules/health_package/health_package.model.js";
 import { createIndexes } from "./indexes.js";
-import { seedRolePermissions } from "../src/seeder/roles.seed.js";  
-
+import { seedRolePermissions } from "../src/seeder/roles.seed.js";
+import { DoctorTable as createDoctorTable } from "../src/modules/doctor/doctors.model.js";
+import { DoctorPatientTable as createDoctorAppoitmentTable } from "../src/modules/doctor/doctors.model.js";
+import { MedicalHistoryTable } from "../src/modules/medical_history/medical_history.model.js";
+import { createRatingTables } from "../src/modules/rating/rating.model.js";
 export const initDB = async () => {
 
   // CREATE CONSTANT TABLES
@@ -36,6 +39,10 @@ export const initDB = async () => {
   await createHealthPackageTestsTable();
   await UserHealthPackageTable();
   await seedRolePermissions();
+  await createDoctorTable();
+  await createDoctorAppoitmentTable();
+  await MedicalHistoryTable();
+  await createRatingTables();
 
   // CREATE INDEXES
   await createIndexes();

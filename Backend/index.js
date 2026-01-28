@@ -3,6 +3,12 @@ import dotenv from "dotenv";
 import app from "./server.js";
 import { initDB } from "./db/initDB.js";
 // Load environment variables from .env file
+import os from "os";
+
+const totalCores = os.cpus().length;
+console.log(`Total CPU Cores: ${totalCores}`);
+
+
 dotenv.config();
 initDB();
 
