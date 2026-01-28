@@ -28,7 +28,11 @@ app.use('/api', apiroutes);
 // Middleware to enable Cross-Origin Resource Sharing (CORS) for all origins
 app.use(
   cors({
-    origin: "*",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      callback(null, true);
+    },
     credentials: true,
   })
 );

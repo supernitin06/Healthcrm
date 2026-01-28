@@ -15,19 +15,21 @@ export const registerStaffcontroller = async (req, res) => {
 export const loginStaffcontroller = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await loginStaff({ email, password });
-        if (user) {
+        const staff = await loginStaff({ email, password });
+        if (staff) {
             const token = jwt.sign(
                 {
-                    id: user.id,
-                    role_id: user.role_id
+                    id: staff.id,
+                    username: staff.username,
+                    email: staff.email,
+                    role_id: staff.role_id
                 },
                 process.env.JWT_SECRET,
                 { expiresIn: "1h" }
             );
-            user.token = token;
+            staff.token = token;
             res.cookie("token", token);
-            res.status(200).json({ token, user });
+            res.status(200).json({ token, staff });
         }
 
 
@@ -50,8 +52,8 @@ export const updateStaffcontroller = async (req, res) => {
 
 export const getStaffcontroller = async (req, res) => {
     try {
-        const user = await getStaff();
-        res.status(200).json(user);
+        const staff = await getStaff();
+        res.status(200).json(staff);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -61,8 +63,8 @@ export const getStaffcontroller = async (req, res) => {
 export const getStaffByIdcontroller = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await getStaffById(id);
-        res.status(200).json(user);
+        const staff = await getStaffById(id);
+        res.status(200).json(staff);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

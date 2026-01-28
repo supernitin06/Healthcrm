@@ -14,7 +14,7 @@ const doc = {
       description: 'Local server',
     },
     {
-      url: 'https://crm-backend.onrender.com',
+      url: 'https://healthcrm.onrender.com',
       description: 'Render server',
     },
   ],
