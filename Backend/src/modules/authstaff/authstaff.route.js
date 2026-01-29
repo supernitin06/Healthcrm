@@ -3,9 +3,16 @@ import { can } from "../../middlewares/Permission.js";
 import { authMiddleware } from "../../middlewares/authmiddlewere.js";
 import { validateRequest } from "../../middlewares/validateRequest.js";
 import { registerStaffValidation } from "./validate/authstaff.validate.js";
-import { registerStaffcontroller } from "./authstaff.controller.js";
+import { registerStaffcontroller, registerSuperAdminController } from "./authstaff.controller.js";
 import { loginStaffcontroller, updateStaffcontroller, getStaffcontroller, getStaffByIdcontroller } from "./authstaff.controller.js";
 const router = Router();
+
+router.post("/registersuperadmin",
+    /* 
+        #swagger.tags = ['staff'] 
+    */
+    registerSuperAdminController
+);
 
 router.post("/registerstaff",
     /* 
