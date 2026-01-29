@@ -56,18 +56,53 @@ export { loginStaff };
 
 
 export const updateStaff = async (id, { username, email, password, role_id }) => {
-    const { rows } = await pool.query(
-        `
-    UPDATE staff
-    SET username = $1,
-        email = $2,
-        password = $3,
-        role_id = $4
-    WHERE id = $5
-    RETURNING id, username, email, role_name, created_at;
-    `,
-        [username, email, password, role_id, id]
-    );
+    const fields = [];
+    const values = [];
+    let paramIndex = 1;
+
+    if (username) {
+        fields.push(`username = $${paramIndex++}`);
+        values.push(username);
+    }
+    if (email) {
+        fields.push(`email = $${paramIndex++}`);
+        values.push(email);
+    }
+    if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        fields.push(`password = $${paramIndex++}`);
+        values.push(hashedPassword);
+    }
+    if (role_id) {
+        const roleResult = await pool.query(`SELECT name FROM roles WHERE id = $1`, [role_id]);
+        if (roleResult.rows.length === 0) {
+            throw new Error("Role not found");
+        }
+        fields.push(`role_id = $${paramIndex++}`);
+        values.push(role_id);
+
+        fields.push(`role_name = $${paramIndex++}`);
+        values.push(roleResult.rows[0].name);
+    }
+
+    if (fields.length === 0) {
+        throw new Error("No fields provided for update");
+    }
+
+    values.push(id);
+    const query = `
+        UPDATE staff
+        SET ${fields.join(", ")}
+        WHERE id = $${paramIndex}
+        RETURNING id, username, email, role_name, created_at;
+    `;
+
+    const { rows } = await pool.query(query, values);
+
+    if (rows.length === 0) {
+        throw new Error("Staff member not found");
+    }
+
     return rows[0];
 };
 

@@ -1,4 +1,4 @@
-import { registerStaff, loginStaff } from "./authstaff.service.js";
+import { registerStaff, loginStaff, getStaff, updateStaff, getStaffById } from "./authstaff.service.js";
 import jwt from "jsonwebtoken";
 export const registerStaffcontroller = async (req, res) => {
     try {
@@ -41,7 +41,8 @@ export const loginStaffcontroller = async (req, res) => {
 
 export const updateStaffcontroller = async (req, res) => {
     try {
-        const { id, username, email, password, role_id } = req.body;
+        const { id } = req.params;
+        const { username, email, password, role_id } = req.body;
         const user = await updateStaff(id, { username, email, password, role_id });
         res.status(200).json(user);
     } catch (error) {
