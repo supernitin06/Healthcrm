@@ -18,7 +18,7 @@ router.use("/staff", staffRoutes);
 router.use("/auth", authRoutes);
 router.use("/roles", roleRoutes);
 router.use("/permissions", permissionRoutes);
-router.use("/teams", teamRoutes);
+router.use("/teams", teamRoutes); 
 router.use("/employees", employeeRoutes);
 router.use("/insurance", insuranceRoutes);
 router.use("/offers", offerRoutes);

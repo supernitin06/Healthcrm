@@ -93,3 +93,34 @@ export const getStaffById = async (id) => {
 };
 
 
+
+export const registerSuperAdmin = async ({ username, email, password, role_id }) => {
+    if (!username || !email || !password || !role_id) {
+        throw new Error("All fields are required");
+    }
+
+    // 🔹 Get superadmin role id
+    const roleResult = await pool.query(
+        `SELECT id, name FROM roles WHERE id = $1`,
+        [role_id]
+    );
+
+    const role = roleResult.rows[0];
+    if (!role) {
+        throw new Error("Superadmin role not found");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 🔹 Insert superadmin staff
+    const staffResult = await pool.query(
+        `
+    INSERT INTO staff (username, email, password, role_id, role_name)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING id, username, email, role_name, created_at;
+    `,
+        [username, email, hashedPassword, role.id, role.name]
+    );
+
+    return staffResult.rows[0];
+};

@@ -5,14 +5,14 @@ export const seedRolePermissions = async () => {
 
     await assignPermissionToRole("superadmin", "CREATE_STAFF");
     await assignPermissionToRole("superadmin", "DELETE_STAFF");
-    await assignPermissionToRole("superadmin", "VIEW_USERS");
+    await assignPermissionToRole("superadmin", "UPDATE_STAFF");
+    await assignPermissionToRole("superadmin", "GET_STAFF");
     await assignPermissionToRole("superadmin", "CREATE_PLAN");
     await assignPermissionToRole("superadmin", "UPDATE_PLAN");
     await assignPermissionToRole("superadmin", "DELETE_PLAN");
     await assignPermissionToRole("superadmin", "CREATE_TEAM");
     await assignPermissionToRole("superadmin", "DELETE_TEAM");
     await assignPermissionToRole("superadmin", "VIEW_TEAMS");
-
     // ADMIN
     await assignPermissionToRole("admin", "CREATE_STAFF");
     await assignPermissionToRole("admin", "VIEW_USERS");

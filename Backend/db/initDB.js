@@ -21,13 +21,13 @@ export const initDB = async () => {
   // CREATE CONSTANT TABLES
   await createRoleTable();
   await insertDefaultRoles();
+  await createTeamTable();
+  await insertDefaultTeams();
   await createPermissionTable();
   await insertDefaultRolePermissions();
   await createRolePermissionTable();
   await createUsersTable();
   await createStaffTable();
-  await createTeamTable();
-  await insertDefaultTeams();
   await AssignUserToEmployeeTable();
   await createInsuranceTable();
   await UserInsuranceTable();

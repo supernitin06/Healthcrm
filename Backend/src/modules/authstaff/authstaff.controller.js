@@ -1,5 +1,17 @@
-import { registerStaff, loginStaff } from "./authstaff.service.js";
+import { registerStaff, loginStaff, registerSuperAdmin, updateStaff, getStaff, getStaffById } from "./authstaff.service.js";
 import jwt from "jsonwebtoken";
+
+export const registerSuperAdminController = async (req, res) => {
+    try {
+        const { username, email, password ,role_id } = req.body;
+        const user = await registerSuperAdmin({ username, email, password ,role_id });
+        res.status(201).json(user);
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export const registerStaffcontroller = async (req, res) => {
     try {
         const { username, email, password, role_id } = req.body;
