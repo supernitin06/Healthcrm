@@ -5,13 +5,28 @@ import { validateRequest } from "../../middlewares/validateRequest.js";
 import { registerStaffValidation } from "./validate/authstaff.validate.js";
 import { registerStaffcontroller, registerSuperAdminController } from "./authstaff.controller.js";
 import { loginStaffcontroller, updateStaffcontroller, getStaffcontroller, getStaffByIdcontroller } from "./authstaff.controller.js";
+import { createUploader } from "../../middlewares/coloudinary/cloudinary.js";
+import multer from "multer";
 const router = Router();
 
 router.post("/registersuperadmin",
     /* 
-        #swagger.tags = ['staff'] 
+        #swagger.tags = ['staff']
+        #swagger.consumes = ['multipart/form-data']
+        #swagger.parameters['username'] = { in: 'formData', required: true, type: 'string' }
+        #swagger.parameters['email'] = { in: 'formData', required: true, type: 'string' }
+        #swagger.parameters['password'] = { in: 'formData', required: true, type: 'string' }
+        #swagger.parameters['role_id'] = { in: 'formData', required: true, type: 'string' }
+        #swagger.parameters['profile_image'] = {
+            in: 'formData',
+            type: 'file',
+            required: true,
+            description: 'Profile image to upload'
+        }
     */
-    registerSuperAdminController
+
+    createUploader("superadmin").single("profile_image"),
+    registerSuperAdminController 
 );
 
 router.post("/registerstaff",

@@ -14,10 +14,9 @@ export const createStaffTable = async () => {
       special_position VARCHAR(50),
       reset_token VARCHAR(255),
       reset_token_expiry TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '15 minutes'),
-
+      profile_image VARCHAR(255),
       is_active BOOLEAN DEFAULT true,
       last_login TIMESTAMP, 
-    
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

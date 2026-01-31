@@ -102,6 +102,17 @@
           "staff"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "profile_image",
+            "in": "formData",
+            "required": true,
+            "description": "Profile image to upload",
+            "schema": {
+              "type": "file"
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"

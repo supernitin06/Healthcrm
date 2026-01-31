@@ -16,8 +16,9 @@ const pool = new Pool({
     process.env.DB_HOST === "localhost" || process.env.DB_HOST === "127.0.0.1"
       ? false
       : {
-        rejectUnauthorized: false, // 👈 allows self-signed certificate
+        rejectUnauthorized: false,
       },
+  connectionTimeoutMillis: 30000, // Wait 30s before timing out
 });
 
 // Test connection

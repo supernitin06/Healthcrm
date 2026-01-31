@@ -17,30 +17,56 @@ import { DoctorPatientTable as createDoctorAppoitmentTable } from "../src/module
 import { MedicalHistoryTable } from "../src/modules/medical_history/medical_history.model.js";
 import { createRatingTables } from "../src/modules/rating/rating.model.js";
 export const initDB = async () => {
+  console.log("🔄 Initializing Database...");
 
   // CREATE CONSTANT TABLES
+  console.log("... Creating roles table");
   await createRoleTable();
   await insertDefaultRoles();
+
+  console.log("... Creating teams table");
   await createTeamTable();
   await insertDefaultTeams();
+
+  console.log("... Creating permission table");
   await createPermissionTable();
   await insertDefaultRolePermissions();
   await createRolePermissionTable();
+
+  console.log("... Creating users table");
   await createUsersTable();
+
+  console.log("... Creating staff table");
   await createStaffTable();
+
+  console.log("... Creating employee table");
   await AssignUserToEmployeeTable();
-  await createInsuranceTable();
+
+  console.log("... Creating insurance table");
+  await createInsuranceTable(); 
   await UserInsuranceTable();
+
+  console.log("... Creating offer table");
   await createOfferTable();
   await UsersOfferTable();
+
+  console.log("... Creating health test table");
   await createHealthTestTable();
   await UserHealthTestTable();
+
+  console.log("... Creating health package table");
   await createHealthPackageTable();
   await createHealthPackageTestsTable();
   await UserHealthPackageTable();
+
+  console.log("... Seeding permissions");
   await seedRolePermissions();
+
+  console.log("... Creating doctor tables");
   await createDoctorTable();
   await createDoctorAppoitmentTable();
+
+  console.log("... Creating remaining tables");
   await MedicalHistoryTable();
   await createRatingTables();
 
