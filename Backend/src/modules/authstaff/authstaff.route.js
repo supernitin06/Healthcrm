@@ -44,19 +44,35 @@ router.post("/loginstaff",
 router.put("/updatestaff/:id", authMiddleware,
     /* 
         #swagger.tags = ['staff'] 
+        #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            username: { type: "string", example: "newusername" },
+                            email: { type: "string", example: "new@email.com" },
+                            password: { type: "string", example: "newpassword" },
+                            role_id: { type: "integer", example: 2 }
+                        }
+                    }
+                }
+            }
+        }
     */
-    authMiddleware, can("UPDATE_STAFF"), updateStaffcontroller);
+    can("UPDATE_STAFF"), updateStaffcontroller);
 
 router.get("/getstaff", authMiddleware,
     /* 
         #swagger.tags = ['staff'] 
     */
-    authMiddleware, can("GET_STAFF"), getStaffcontroller);
+    can("GET_STAFF"), getStaffcontroller);
 
 router.get("/getstaff/:id", authMiddleware,
     /* 
         #swagger.tags = ['staff'] 
     */
-    authMiddleware, can("GET_STAFF"), getStaffByIdcontroller);
+    can("GET_STAFF"), getStaffByIdcontroller);
 
 export default router;

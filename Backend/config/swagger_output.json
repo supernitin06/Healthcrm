@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5000",
+      "url": "http://localhost:5001",
       "description": "Local Development"
     },
     {
@@ -274,25 +274,27 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "example": "any"
-                  },
                   "username": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "newusername"
                   },
                   "email": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "new@email.com"
                   },
                   "password": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "newpassword"
                   },
                   "role_id": {
-                    "example": "any"
+                    "type": "integer",
+                    "example": 2
                   }
                 }
               }
