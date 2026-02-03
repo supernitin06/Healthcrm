@@ -13,12 +13,12 @@ import doctorRoutes from "../modules/doctor/doctors.route.js";
 import medicalHistoryRoutes from "../modules/medical_history/medical_history.route.js";
 import ratingRoutes from "../modules/rating/rating.route.js";
 const router = Router();
- 
+
 router.use("/staff", staffRoutes);
 router.use("/auth", authRoutes);
 router.use("/roles", roleRoutes);
 router.use("/permissions", permissionRoutes);
-router.use("/teams", teamRoutes); 
+router.use("/teams", teamRoutes);
 router.use("/employees", employeeRoutes);
 router.use("/insurance", insuranceRoutes);
 router.use("/offers", offerRoutes);

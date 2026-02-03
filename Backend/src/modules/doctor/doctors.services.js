@@ -3,11 +3,11 @@ import pool from "../../../db/config.js";
 
 export const createDoctorService = async (data) => {
     const query = `
-    INSERT INTO doctors (name, email, password, phone, description, fee, experience, speciality, is_active)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    INSERT INTO doctors (name, email, password, phone, description, fee, experience, speciality, is_active, profile_image)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
     RETURNING *`;
     try {
-        const result = await pool.query(query, [data.name, data.email, data.password, data.phone, data.description, data.fee, data.experience, data.speciality, data.is_active]);
+        const result = await pool.query(query, [data.name, data.email, data.password, data.phone, data.description, data.fee, data.experience, data.speciality, data.is_active, data.profile_image]);
         console.log("✅ Doctor created successfully");
         return result.rows[0];
     } catch (error) {
@@ -52,9 +52,9 @@ export const updateDoctorService = async (id, data) => {
         console.log("✅ Doctor updated successfully");
         return result.rows[0];
     } catch (error) {
-        console.error("❌ Error updating doctor:", error); 
+        console.error("❌ Error updating doctor:", error);
         throw error;
-    } 
+    }
 };
 
 export const deleteDoctorService = async (id) => {

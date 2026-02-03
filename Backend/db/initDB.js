@@ -16,6 +16,7 @@ import { DoctorTable as createDoctorTable } from "../src/modules/doctor/doctors.
 import { DoctorPatientTable as createDoctorAppoitmentTable } from "../src/modules/doctor/doctors.model.js";
 import { MedicalHistoryTable } from "../src/modules/medical_history/medical_history.model.js";
 import { createRatingTables } from "../src/modules/rating/rating.model.js";
+import { createClaimTable } from "../src/modules/claim/claim.model.js";
 export const initDB = async () => {
   console.log("🔄 Initializing Database...");
 
@@ -43,7 +44,7 @@ export const initDB = async () => {
   await AssignUserToEmployeeTable();
 
   console.log("... Creating insurance table");
-  await createInsuranceTable(); 
+  await createInsuranceTable();
   await UserInsuranceTable();
 
   console.log("... Creating offer table");
@@ -69,6 +70,8 @@ export const initDB = async () => {
   console.log("... Creating remaining tables");
   await MedicalHistoryTable();
   await createRatingTables();
+  console.log("... Creating claim table");
+  await createClaimTable();
 
   // CREATE INDEXES
   await createIndexes();

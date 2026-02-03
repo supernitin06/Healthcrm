@@ -25,12 +25,13 @@ export const registerSuperAdminController = async (req, res) => {
 export const registerStaffcontroller = async (req, res) => {
     try {
         const { username, email, password, role_id } = req.body;
-        const user = await registerStaff({ username, email, password, role_id });
+        const profile_image = req.file?.path || null;
+        const user = await registerStaff({ username, email, password, role_id, profile_image });
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}; 
+};
 
 
 

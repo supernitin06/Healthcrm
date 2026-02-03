@@ -1,7 +1,7 @@
 import pool from "../../../db/config.js";
 import bcrypt from "bcrypt";
 
-export const registerStaff = async ({ username, email, password, role_id }) => {
+export const registerStaff = async ({ username, email, password, role_id, profile_image }) => {
     if (!username || !email || !password || !role_id) {
         throw new Error("All fields are required");
     }
@@ -22,11 +22,11 @@ export const registerStaff = async ({ username, email, password, role_id }) => {
     // 🔹 Insert staff
     const staffResult = await pool.query(
         `
-    INSERT INTO staff (username, email, password, role_id, role_name)
-    VALUES ($1, $2, $3, $4, $5)
-    RETURNING id, username, email, role_name, created_at;
+    INSERT INTO staff (username, email, password, role_id, role_name, profile_image)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id, username, email, role_name, profile_image, created_at;
     `,
-        [username, email, hashedPassword, role_id, role.name]
+        [username, email, hashedPassword, role_id, role.name, profile_image]
     );
 
     return staffResult.rows[0];

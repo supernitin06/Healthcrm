@@ -26,14 +26,14 @@ router.post("/registersuperadmin",
     */
 
     createUploader("superadmin").single("profile_image"),
-    registerSuperAdminController 
+    registerSuperAdminController
 );
 
 router.post("/registerstaff",
     /* 
         #swagger.tags = ['staff'] 
     */
-    authMiddleware, can("CREATE_STAFF"), registerStaffValidation, validateRequest, registerStaffcontroller);
+    authMiddleware, can("CREATE_STAFF"), createUploader("staff").single("profile_image"), registerStaffValidation, validateRequest, registerStaffcontroller);
 
 
 router.post("/loginstaff",
