@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken";
 
 export const registerSuperAdminController = async (req, res) => {
     try {
-        const { username, email, password ,role_id } = req.body;
-        const user = await registerSuperAdmin({ username, email, password ,role_id });
+        const { username, email, password, role_id } = req.body;
+        const profile_image = req.file ? req.file.path : null;
+        const user = await registerSuperAdmin({ username, email, password, role_id, profile_image });
         res.status(201).json(user);
 
     } catch (error) {
@@ -15,12 +16,13 @@ export const registerSuperAdminController = async (req, res) => {
 export const registerStaffcontroller = async (req, res) => {
     try {
         const { username, email, password, role_id } = req.body;
-        const user = await registerStaff({ username, email, password, role_id });
+        const profile_image = req.file ? req.file.path : null;
+        const user = await registerStaff({ username, email, password, role_id, profile_image });
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}; 
+};
 
 
 
@@ -56,7 +58,8 @@ export const updateStaffcontroller = async (req, res) => {
     try {
         const { id } = req.params;
         const { username, email, password, role_id } = req.body;
-        const user = await updateStaff(id, { username, email, password, role_id });
+        const profile_image = req.file ? req.file.path : undefined;
+        const user = await updateStaff(id, { username, email, password, role_id, profile_image });
         res.status(200).json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });

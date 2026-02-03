@@ -55,7 +55,7 @@ const loginStaff = async ({ email, password }) => {
 export { loginStaff };
 
 
-export const updateStaff = async (id, { username, email, password, role_id }) => {
+export const updateStaff = async (id, { username, email, password, role_id, profile_image }) => {
     const fields = [];
     const values = [];
     let paramIndex = 1;
@@ -72,6 +72,10 @@ export const updateStaff = async (id, { username, email, password, role_id }) =>
         const hashedPassword = await bcrypt.hash(password, 10);
         fields.push(`password = $${paramIndex++}`);
         values.push(hashedPassword);
+    }
+    if (profile_image) {
+        fields.push(`profile_image = $${paramIndex++}`);
+        values.push(profile_image);
     }
     if (role_id) {
         const roleResult = await pool.query(`SELECT name FROM roles WHERE id = $1`, [role_id]);
@@ -129,8 +133,8 @@ export const getStaffById = async (id) => {
 
 
 
-export const registerSuperAdmin = async ({ username, email, password, role_id }) => {
-    if (!username || !email || !password || !role_id) {
+export const registerSuperAdmin = async ({ username, email, password, role_id, profile_image }) => {
+    if (!username || !email || !password || !role_id || !profile_image) {
         throw new Error("All fields are required");
     }
 
@@ -150,11 +154,11 @@ export const registerSuperAdmin = async ({ username, email, password, role_id })
     // 🔹 Insert superadmin staff
     const staffResult = await pool.query(
         `
-    INSERT INTO staff (username, email, password, role_id, role_name)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO staff (username, email, password, role_id, role_name,profile_image)
+    VALUES ($1, $2, $3, $4, $5,$6)
     RETURNING id, username, email, role_name, created_at;
     `,
-        [username, email, hashedPassword, role.id, role.name]
+        [username, email, hashedPassword, role.id, role.name, profile_image]
     );
 
     return staffResult.rows[0];

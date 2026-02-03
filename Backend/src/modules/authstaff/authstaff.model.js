@@ -14,7 +14,7 @@ export const createStaffTable = async () => {
       special_position VARCHAR(50),
       reset_token VARCHAR(255),
       reset_token_expiry TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '15 minutes'),
-
+      profile_image VARCHAR(255),
       is_active BOOLEAN DEFAULT true,
       last_login TIMESTAMP, 
     
@@ -25,7 +25,7 @@ export const createStaffTable = async () => {
   try {
     await pool.query(query);
     // Ensure role_name column exists (in case table was created before this column was added)
-    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS role_name VARCHAR(50)`);
+
     console.log("✅ Users table created (staff)");
   } catch (error) {
     console.error("❌ Error creating users table:", error);

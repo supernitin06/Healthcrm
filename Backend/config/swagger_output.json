@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5001",
+      "url": "http://localhost:5000",
       "description": "Local Development"
     },
     {
@@ -102,6 +102,49 @@
           "staff"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role_id",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "profile_image",
+            "in": "formData",
+            "required": true,
+            "description": "Profile Image",
+            "schema": {
+              "type": "file"
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"
@@ -147,6 +190,47 @@
             "in": "header",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "username",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role_id",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "profile_image",
+            "in": "formData",
+            "required": true,
+            "description": "Profile Image",
+            "schema": {
+              "type": "file"
             }
           }
         ],
@@ -246,6 +330,46 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "username",
+            "in": "formData",
+            "example": "newusername",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "example": "new@email.com",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "example": "newpassword",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role_id",
+            "in": "formData",
+            "example": 2,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "profile_image",
+            "in": "formData",
+            "description": "Profile Image",
+            "schema": {
+              "type": "file"
+            }
           }
         ],
         "responses": {
@@ -263,27 +387,22 @@
           }
         },
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "username": {
-                    "type": "string",
-                    "example": "newusername"
+                    "example": "any"
                   },
                   "email": {
-                    "type": "string",
-                    "example": "new@email.com"
+                    "example": "any"
                   },
                   "password": {
-                    "type": "string",
-                    "example": "newpassword"
+                    "example": "any"
                   },
                   "role_id": {
-                    "type": "integer",
-                    "example": 2
+                    "example": "any"
                   }
                 }
               }
