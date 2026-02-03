@@ -1,7 +1,7 @@
 import pool from "../../../db/config.js";
 import bcrypt from "bcrypt";
 
-export const registerStaff = async ({ username, email, password, role_id }) => {
+export const registerStaff = async ({ username, email, password, role_id, profile_image }) => {
     if (!username || !email || !password || !role_id) {
         throw new Error("All fields are required");
     }
@@ -22,11 +22,11 @@ export const registerStaff = async ({ username, email, password, role_id }) => {
     // 🔹 Insert staff
     const staffResult = await pool.query(
         `
-    INSERT INTO staff (username, email, password, role_id, role_name)
-    VALUES ($1, $2, $3, $4, $5)
-    RETURNING id, username, email, role_name, created_at;
+    INSERT INTO staff (username, email, password, role_id, role_name, profile_image)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id, username, email, role_name, profile_image, created_at;
     `,
-        [username, email, hashedPassword, role_id, role.name]
+        [username, email, hashedPassword, role_id, role.name, profile_image]
     );
 
     return staffResult.rows[0];
@@ -134,10 +134,22 @@ export const getStaffById = async (id) => {
 
 
 export const registerSuperAdmin = async ({ username, email, password, role_id, profile_image }) => {
-    if (!username || !email || !password || !role_id || !profile_image) {
-        throw new Error("All fields are required");
+    if (!username) throw new Error("Username is required");
+    if (!email) throw new Error("Email is required");
+    if (!password) throw new Error("Password is required");
+    if (!role_id) throw new Error("Role ID is required");
+
+    email = email.toLowerCase();
+
+    // profile_image is optional now
+
+    // 🔹 Check if email already exists
+    const existingUser = await pool.query(`SELECT id FROM staff WHERE email = $1`, [email]);
+    if (existingUser.rows.length > 0) {
+        throw new Error("Email already exists");
     }
 
+    // 🔹 Get superadmin role id
     // 🔹 Get superadmin role id
     const roleResult = await pool.query(
         `SELECT id, name FROM roles WHERE id = $1`,
@@ -153,10 +165,10 @@ export const registerSuperAdmin = async ({ username, email, password, role_id, p
 
     // 🔹 Insert superadmin staff
     const staffResult = await pool.query(
-        `
-    INSERT INTO staff (username, email, password, role_id, role_name,profile_image)
-    VALUES ($1, $2, $3, $4, $5,$6)
-    RETURNING id, username, email, role_name, created_at;
+        `   
+    INSERT INTO staff (username, email, password, role_id, role_name, profile_image)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id, username, email, role_name, profile_image, created_at;   
     `,
         [username, email, hashedPassword, role.id, role.name, profile_image]
     );

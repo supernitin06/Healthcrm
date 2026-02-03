@@ -11,7 +11,7 @@ export const createRoleService = async (name) => {
 export const getRolesService = async () => {
     const result = await pool.query("SELECT * FROM roles");
     return result.rows;
-};
+};  
 
 export const getRoleByIdService = async (id) => {
     const result = await pool.query("SELECT * FROM roles WHERE id = $1", [id]);

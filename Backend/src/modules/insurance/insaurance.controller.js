@@ -25,7 +25,6 @@ export const assignInsuranceToUserController = async (req, res) => {
 };
 
 export const getAssignInsuranceToUserController = async (req, res) => {
-    console.log(req.params.id);
     try {
         const insurance = await getAssignInsuranceToUser(req.params.id);
         res.status(200).json(insurance);

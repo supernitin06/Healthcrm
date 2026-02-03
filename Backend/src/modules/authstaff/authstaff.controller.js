@@ -5,10 +5,17 @@ export const registerSuperAdminController = async (req, res) => {
     try {
         const { username, email, password, role_id } = req.body;
         const profile_image = req.file ? req.file.path : null;
+        console.log("Register Super Admin Request Body:", req.body);
+        console.log("Register Super Admin Request File:", req.file);
+
         const user = await registerSuperAdmin({ username, email, password, role_id, profile_image });
         res.status(201).json(user);
 
     } catch (error) {
+        console.error("Error in registerSuperAdminController:", error);
+        if (error.message === "Email already exists" || error.code === '23505') {
+            return res.status(409).json({ error: "Email already exists" });
+        }
         res.status(500).json({ error: error.message });
     }
 };
@@ -16,7 +23,7 @@ export const registerSuperAdminController = async (req, res) => {
 export const registerStaffcontroller = async (req, res) => {
     try {
         const { username, email, password, role_id } = req.body;
-        const profile_image = req.file ? req.file.path : null;
+        const profile_image = req.file?.path || null;
         const user = await registerStaff({ username, email, password, role_id, profile_image });
         res.status(201).json(user);
     } catch (error) {

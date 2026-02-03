@@ -83,6 +83,10 @@
     {
       "name": "Ratings",
       "description": "Ratings Management"
+    },
+    {
+      "name": "Claims",
+      "description": "Claims Management"
     }
   ],
   "paths": {
@@ -132,14 +136,14 @@
             "in": "formData",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           },
           {
             "name": "profile_image",
             "in": "formData",
             "required": true,
-            "description": "Profile Image",
+            "description": "Profile image to upload",
             "schema": {
               "type": "file"
             }
@@ -148,6 +152,9 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "409": {
+            "description": "Conflict"
           },
           "500": {
             "description": "Internal Server Error"
@@ -514,12 +521,17 @@
                   "password": {
                     "type": "string",
                     "example": "password123"
+                  },
+                  "profile_image": {
+                    "type": "string",
+                    "example": "https://example.com/profile.jpg"
                   }
                 },
                 "required": [
                   "username",
                   "email",
-                  "password"
+                  "password",
+                  "profile_image"
                 ]
               }
             }
@@ -3019,6 +3031,86 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fee",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "experience",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "speciality",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "is_active",
+            "in": "formData",
+            "default": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "profile_image",
+            "in": "formData",
+            "required": false,
+            "description": "Doctor profile image",
+            "schema": {
+              "type": "file"
+            }
           }
         ],
         "responses": {
@@ -3223,18 +3315,26 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "specil_detail": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Detailed checkup required"
                   },
                   "appoitment_date": {
-                    "example": "any"
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2024-01-01T10:00:00Z"
                   }
-                }
+                },
+                "required": [
+                  "specil_detail",
+                  "appoitment_date"
+                ]
               }
             }
           }

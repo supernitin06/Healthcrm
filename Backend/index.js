@@ -10,14 +10,21 @@ console.log(`Total CPU Cores: ${totalCores}`);
 
 
 dotenv.config();
-initDB();
-
-
 // Create the HTTP server using the Express app
 const server = http.createServer(app);
-
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await initDB();
+
+    server.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to initialize database:", error);
+    process.exit(1);
+  }
+};
+
+startServer();  

@@ -17,7 +17,6 @@ export const createStaffTable = async () => {
       profile_image VARCHAR(255),
       is_active BOOLEAN DEFAULT true,
       last_login TIMESTAMP, 
-    
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

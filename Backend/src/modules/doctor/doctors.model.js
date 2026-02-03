@@ -1,7 +1,7 @@
 import pool from "../../../db/config.js";
 
 export const DoctorTable = () => {
-    const query = `
+  const query = `
     CREATE TABLE IF NOT EXISTS doctors (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
@@ -19,18 +19,18 @@ export const DoctorTable = () => {
     );
   `;
 
-    pool.query(query, (err) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log("Doctors table created successfully");
-        }
-    });
+  pool.query(query, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Doctors table created successfully");
+    } 
+  });
 };
 
 
 export const DoctorPatientTable = () => {
-    const query = `
+  const query = `
     CREATE TABLE IF NOT EXISTS doctor_patient (
       id SERIAL PRIMARY KEY,
       doctor_id INT REFERENCES doctors(id) ON DELETE CASCADE,
@@ -42,11 +42,11 @@ export const DoctorPatientTable = () => {
       status VARCHAR(255) NOT NULL
     );
   `;
-    pool.query(query, (err) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log("Doctor-Patient table created successfully");
-        }
-    });
+  pool.query(query, (err) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Doctor-Patient table created successfully");
+    }
+  });
 };

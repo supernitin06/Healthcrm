@@ -5,20 +5,20 @@ import { validateRequest } from "../../middlewares/validateRequest.js";
 import { registerStaffValidation } from "./validate/authstaff.validate.js";
 import { registerStaffcontroller, registerSuperAdminController } from "./authstaff.controller.js";
 import { loginStaffcontroller, updateStaffcontroller, getStaffcontroller, getStaffByIdcontroller } from "./authstaff.controller.js";
-import upload from "../../middlewares/multer.js";
+import { createUploader } from "../../middlewares/coloudinary/cloudinary.js";
+import multer from "multer";
 const router = Router();
 
 router.post("/registersuperadmin",
     upload.single("profile_image"),
     /* 
-        #swagger.tags = ['staff'] 
+        #swagger.tags = ['staff']
         #swagger.consumes = ['multipart/form-data']
-        #swagger.parameters['username'] = { in: 'formData', required: true, type: 'string' }
-        #swagger.parameters['email'] = { in: 'formData', required: true, type: 'string' }
-        #swagger.parameters['password'] = { in: 'formData', required: true, type: 'string' }
-        #swagger.parameters['role_id'] = { in: 'formData', required: true, type: 'integer' }
+    
         #swagger.parameters['profile_image'] = { in: 'formData', type: 'file', required: true, description: 'Profile Image' }
     */
+
+    createUploader("superadmin").single("profile_image"),
     registerSuperAdminController
 );
 
@@ -27,13 +27,11 @@ router.post("/registerstaff",
     /* 
         #swagger.tags = ['staff'] 
         #swagger.consumes = ['multipart/form-data']
-        #swagger.parameters['username'] = { in: 'formData', required: true, type: 'string' }
-        #swagger.parameters['email'] = { in: 'formData', required: true, type: 'string' }
-        #swagger.parameters['password'] = { in: 'formData', required: true, type: 'string' }
-        #swagger.parameters['role_id'] = { in: 'formData', required: true, type: 'integer' }
+
         #swagger.parameters['profile_image'] = { in: 'formData', type: 'file', required: true, description: 'Profile Image' }
     */
     registerStaffcontroller);
+    authMiddleware, can("CREATE_STAFF"), createUploader("staff").single("profile_image"), registerStaffValidation, validateRequest, registerStaffcontroller);
 
 
 router.post("/loginstaff",
@@ -48,10 +46,7 @@ router.put("/updatestaff/:id", authMiddleware, can("UPDATE_STAFF"), upload.singl
     /* 
         #swagger.tags = ['staff'] 
         #swagger.consumes = ['multipart/form-data']
-        #swagger.parameters['username'] = { in: 'formData', type: 'string', example: "newusername" }
-        #swagger.parameters['email'] = { in: 'formData', type: 'string', example: "new@email.com" }
-        #swagger.parameters['password'] = { in: 'formData', type: 'string', example: "newpassword" }
-        #swagger.parameters['role_id'] = { in: 'formData', type: 'integer', example: 2 }
+   
         #swagger.parameters['profile_image'] = { in: 'formData', type: 'file', description: 'Profile Image' }
     */
     updateStaffcontroller);

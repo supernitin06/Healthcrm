@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 
 
-export const registerUser = async ({ username, email, password }) => {
+export const registerUser = async ({ username, email, password, profile_image }) => {
   if (!username || !email || !password) {
     throw new Error("All fields are required");
   }
@@ -12,15 +12,16 @@ export const registerUser = async ({ username, email, password }) => {
 
   const { rows } = await pool.query(
     `
-    INSERT INTO users (username, email, password) 
+    INSERT INTO users (username, email, password, profile_image) 
     VALUES (
       $1,
       $2,
-      $3
+      $3,
+      $4
     )
-    RETURNING id, username, email, created_at;
+    RETURNING id, username, email, profile_image, created_at;
     `,
-    [username, email, hashedPassword]
+    [username, email, hashedPassword, profile_image]
   );
 
   return rows[0];
@@ -49,8 +50,8 @@ export { loginUser };
 
 
 export const updateUser = async (id, { username, email, password }) => {
-    const { rows } = await pool.query(
-        `
+  const { rows } = await pool.query(
+    `
     UPDATE users
     SET username = $1,
         email = $2,
@@ -58,26 +59,26 @@ export const updateUser = async (id, { username, email, password }) => {
     WHERE id = $4
     RETURNING id, username, email, created_at;
     `,
-        [username, email, password, id]
-    );
-    return rows[0];
+    [username, email, password, id]
+  );
+  return rows[0];
 };
 
 export const getUser = async () => {
-    const { rows } = await pool.query(
-        `
+  const { rows } = await pool.query(
+    `
     SELECT * FROM users
     `
-    );
-    return rows;
+  );
+  return rows;
 };
 
 export const getUserById = async (id) => {
-    const { rows } = await pool.query(
-        `
+  const { rows } = await pool.query(
+    `
     SELECT * FROM users WHERE id = $1
     `,
-        [id]
-    );
-    return rows[0];
+    [id]
+  );
+  return rows[0];
 };

@@ -40,6 +40,7 @@ const doc = {
     { name: 'Doctors_Appoitments', description: 'Doctors Appoitments Management' },
     { name: 'MedicalHistory', description: 'Medical History Management' },
     { name: 'Ratings', description: 'Ratings Management' },
+    { name: 'Claims', description: 'Claims Management' },
   ],
 
   components: {

@@ -7,7 +7,9 @@ export const registerUserController = async (req, res) => {
   try {
     
 
-    const user = await registerUser(req.body);
+
+    const profile_image = req.file?.path || null;
+    const user = await registerUser({ ...req.body, profile_image });
     
     if (user) {
       try {

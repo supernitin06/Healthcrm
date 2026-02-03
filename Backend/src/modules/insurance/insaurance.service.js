@@ -1,5 +1,7 @@
 import pool from "../../../db/config.js";
 
+import { getUserById } from "../authuser/authuser.service.js";
+
 export const createInsurance = async (insurance) => {
     const query = `
     INSERT INTO insurance (name, description, price)
@@ -84,13 +86,21 @@ export const deleteInsurance = async (id) => {
 
 
 export const assignInsuranceToUser = async (insuranceId, userId) => {
+
+    const insurance = await getInsuranceById(insuranceId);
+    const user = await getUserById(userId);
+
     const query = `
-    INSERT INTO user_insurance (user_id, insurance_id)
-    VALUES ($1, $2)
+    INSERT INTO user_insurance (
+        user_id, insurance_id, premium_amount, claim_amount, 
+        hospital_coverage, specialist_coverage, activation_charge, 
+        start_date, end_date
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, CURRENT_DATE, CURRENT_DATE + INTERVAL '1 year')
     RETURNING *;
   `;
     try {
-        const result = await pool.query(query, [userId, insuranceId]);
+        const result = await pool.query(query, [userId, insuranceId, insurance.activation_charge, insurance.claim_amount, insurance.hospital_coverage, insurance.specialist_coverage, insurance.activation_charge]);
         console.log("✅ Insurance assigned successfully");
         return result.rows[0];
     } catch (error) {
@@ -101,15 +111,34 @@ export const assignInsuranceToUser = async (insuranceId, userId) => {
 
 export const getAssignInsuranceToUser = async (id) => {
     const query = `
-    SELECT * FROM user_insurance
-    WHERE id = $1;
+    SELECT
+        ui.user_insurance_id,
+        ui.status,
+        ui.start_date,
+        ui.end_date,
+        json_build_object(
+            'id', u.id,
+            'name', u.name,
+            'email', u.email
+        ) AS user,
+        json_build_object(
+            'id', i.id,
+            'name', i.name,
+            'description', i.description,
+            'activation_charge', i.activation_charge,
+            'rating', i.rating
+        ) AS insurance
+    FROM user_insurance ui
+    JOIN users u ON u.id = ui.user_id
+    JOIN insurance i ON i.id = ui.insurance_id
+    WHERE ui.user_insurance_id = $1;
   `;
     try {
         const result = await pool.query(query, [id]);
-        console.log("✅ Insurance fetched successfully");
+        console.log("✅ User Insurance fetched successfully with details");
         return result.rows[0];
     } catch (error) {
-        console.error("❌ Error fetching insurance:", error);
+        console.error("❌ Error fetching user insurance details:", error);
         throw error;
     }
 };
