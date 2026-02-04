@@ -1,4 +1,5 @@
 import pool from "../../../db/config.js";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 
 // Get all permissions
@@ -20,10 +21,10 @@ export const getPermissionByIdService = async (id) => {
 // Assign permission to role
 // Assign permission to role
 
-export const assignPermissionToRoleService = async (roleId, permissionId) => {
+export const assignPermissionToRoleService = async (roleId, permissionId, assignerId) => {
     const result = await pool.query(
-        "INSERT INTO role_permissions (role_id, permission_id) VALUES ($1, $2) RETURNING *",
-        [roleId, permissionId]
+        "INSERT INTO role_permissions (role_id, permission_id,permission_assigned_by) VALUES ($1, $2,$3) RETURNING *",
+        [roleId, permissionId, assignerId]
     );
     return result.rows[0];
 };
@@ -51,4 +52,14 @@ export const getPermissionsByRoleService = async (roleId) => {
         [roleId]
     );
     return result.rows;
+};
+
+export const createPermissionService = async (name, permission_type) => {
+    const custom_id = generateCustomId("PER");
+    const result = await pool.query(
+        "INSERT INTO permissions (name, permission_type, custom_id) VALUES ($1, $2, $3) RETURNING *",
+        [name, permission_type, custom_id]
+    );
+
+    return result.rows[0];
 };

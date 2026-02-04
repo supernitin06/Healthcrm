@@ -3,17 +3,25 @@ import { getAssignInsuranceToUser } from "../insurance/insaurance.service.js";
 
 
 export const ApplyClaimService = async ({ user_id, insurance_id, claim_amount, documents_upload,
-    reason, status, approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at }) => {
+    reason, status, approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at }, creator) => {
+
+    const Createdby = creator ? creator.id : null;
+    const Updatedby = creator ? creator.id : null;
+    const createdbyname = creator ? creator.username : null;
+    const updatedbyname = creator ? creator.username : null;
+
     try {
         const { rows } = await pool.query(
             `
             INSERT INTO claims (user_id, insurance_id, claim_amount, documents_upload, 
-                reason, status, approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+                reason, status, approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at,
+                created_by, updated_by, created_by_name, updated_by_name)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
             RETURNING *;
             `,
             [user_id, insurance_id, claim_amount, documents_upload, reason, status,
-                approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at]
+                approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at,
+                Createdby, Updatedby, createdbyname, updatedbyname]
         );
         return rows[0];
     } catch (error) {

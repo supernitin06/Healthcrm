@@ -1,24 +1,34 @@
 import pool from "../../../db/config.js";
 
 export const createTeamTable = async () => {
-    const query = `
+  const query = `
     CREATE TABLE IF NOT EXISTS teams (
       id SERIAL PRIMARY KEY,
       name VARCHAR(100) NOT NULL UNIQUE,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      created_by INT,
+      updated_by INT,
+      created_by_name VARCHAR(50),
+      updated_by_name VARCHAR(50),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `;
 
-    try {
-        await pool.query(query);
-        console.log("✅ teams table created");
-    } catch (error) {
-        console.error("❌ Error creating teams table", error);
-    }
+  try {
+    await pool.query(query);
+    await pool.query(`ALTER TABLE teams ADD COLUMN IF NOT EXISTS created_by INT`);
+    await pool.query(`ALTER TABLE teams ADD COLUMN IF NOT EXISTS updated_by INT`);
+    await pool.query(`ALTER TABLE teams ADD COLUMN IF NOT EXISTS created_by_name VARCHAR(50)`);
+    await pool.query(`ALTER TABLE teams ADD COLUMN IF NOT EXISTS updated_by_name VARCHAR(50)`);
+    await pool.query(`ALTER TABLE teams ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`);
+    console.log("✅ teams table created");
+  } catch (error) {
+    console.error("❌ Error creating teams table", error);
+  }
 };
 
 export const insertDefaultTeams = async () => {
-    const query = `
+  const query = `
     INSERT INTO teams (name)
     VALUES
       ('Insurance'),
@@ -27,10 +37,10 @@ export const insertDefaultTeams = async () => {
     ON CONFLICT (name) DO NOTHING;
   `;
 
-    try {
-        await pool.query(query);
-        console.log("✅ Default teams inserted successfully");
-    } catch (error) {
-        console.error("❌ Error inserting default teams", error);
-    }
+  try {
+    await pool.query(query);
+    console.log("✅ Default teams inserted successfully");
+  } catch (error) {
+    console.error("❌ Error inserting default teams", error);
+  }
 };

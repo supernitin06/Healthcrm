@@ -14,17 +14,27 @@ export const DoctorTable = () => {
       speciality VARCHAR(255) NOT NULL,
       is_active BOOLEAN DEFAULT TRUE,
       approved BOOLEAN DEFAULT FALSE,
+      created_by INT,
+      updated_by INT,
+      created_by_name VARCHAR(50),
+      updated_by_name VARCHAR(50),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      custom_id VARCHAR(50) UNIQUE
     );
   `;
 
-  pool.query(query, (err) => {
+  pool.query(query, async (err) => {
     if (err) {
       console.error(err);
     } else {
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS created_by INT`);
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS updated_by INT`);
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS created_by_name VARCHAR(50)`);
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS updated_by_name VARCHAR(50)`);
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS custom_id VARCHAR(50) UNIQUE`);
       console.log("Doctors table created successfully");
-    } 
+    }
   });
 };
 

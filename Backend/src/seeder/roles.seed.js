@@ -19,4 +19,11 @@ export const seedRolePermissions = async () => {
 
     // STAFF (example)
     await assignPermissionToRole("staff", "VIEW_USERS");
+
+    await assignPermissionToRole("superadmin", "CREATE_PERMISSION");
+    await assignPermissionToRole("superadmin", "DELETE_PERMISSION");
+    await assignPermissionToRole("superadmin", "UPDATE_PERMISSION");
+    await assignPermissionToRole("superadmin", "ASSIGN_PERMISSION");
+    await assignPermissionToRole("superadmin", "REMOVE_PERMISSION");
+    
 };

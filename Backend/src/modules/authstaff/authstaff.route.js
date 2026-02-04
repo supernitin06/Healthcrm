@@ -14,8 +14,12 @@ router.post("/registersuperadmin",
     /* 
         #swagger.tags = ['staff']
         #swagger.consumes = ['multipart/form-data']
-    
-        #swagger.parameters['profile_image'] = { in: 'formData', type: 'file', required: true, description: 'Profile Image' }
+        #swagger.parameters['profile_image'] = {
+            in: 'formData',
+            type: 'file',
+            required: true,
+            description: 'Profile image to upload'
+        }
     */
 
     createUploader("superadmin").single("profile_image"),
@@ -27,8 +31,12 @@ router.post("/registerstaff",
     /* 
         #swagger.tags = ['staff'] 
         #swagger.consumes = ['multipart/form-data']
-
-        #swagger.parameters['profile_image'] = { in: 'formData', type: 'file', required: true, description: 'Profile Image' }
+        #swagger.parameters['profile_image'] = {
+            in: 'formData',
+            type: 'file',
+            required: true,
+            description: 'Profile image to upload'
+        }
     */
     registerStaffcontroller);
     authMiddleware, can("CREATE_STAFF"), createUploader("staff").single("profile_image"), registerStaffValidation, validateRequest, registerStaffcontroller);

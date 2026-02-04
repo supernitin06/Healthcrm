@@ -1,5 +1,6 @@
 import pool from "../../../db/config.js";
 import bcrypt from "bcrypt";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 
 
@@ -10,18 +11,21 @@ export const registerUser = async ({ username, email, password, profile_image })
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  const custom_id = generateCustomId("USR");
+
   const { rows } = await pool.query(
     `
-    INSERT INTO users (username, email, password, profile_image) 
+    INSERT INTO users (username, email, password, profile_image, custom_id) 
     VALUES (
       $1,
       $2,
       $3,
-      $4
+      $4,
+      $5
     )
-    RETURNING id, username, email, profile_image, created_at;
+    RETURNING id, custom_id, username, email, profile_image, created_at;
     `,
-    [username, email, hashedPassword, profile_image]
+    [username, email, hashedPassword, profile_image, custom_id]
   );
 
   return rows[0];

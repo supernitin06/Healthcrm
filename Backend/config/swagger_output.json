@@ -108,38 +108,6 @@
         "description": "",
         "parameters": [
           {
-            "name": "username",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "email",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "role_id",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "profile_image",
             "in": "formData",
             "required": true,
@@ -200,42 +168,10 @@
             }
           },
           {
-            "name": "username",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "email",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "role_id",
-            "in": "formData",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
             "name": "profile_image",
             "in": "formData",
             "required": true,
-            "description": "Profile Image",
+            "description": "Profile image to upload",
             "schema": {
               "type": "file"
             }
@@ -961,6 +897,85 @@
         }
       }
     },
+    "/api/permissions/create": {
+      "post": {
+        "tags": [
+          "Permissions"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "permission_type": {
+                  "example": "any"
+                }
+              }
+            },
+            "required": true
+          },
+          {
+            "name": "permission_type",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "any"
+                  },
+                  "permission_type": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/permissions/assign": {
       "post": {
         "tags": [
@@ -997,16 +1012,17 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "role_id": {
-                    "example": "any"
+                    "type": "integer"
                   },
                   "permission_id": {
-                    "example": "any"
+                    "type": "integer"
                   }
                 }
               }
@@ -1518,6 +1534,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -1651,6 +1670,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -1676,6 +1698,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -1701,6 +1726,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -2923,6 +2951,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -2948,6 +2979,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -2981,6 +3015,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -3014,6 +3051,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

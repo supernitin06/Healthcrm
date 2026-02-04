@@ -1,13 +1,22 @@
 import pool from "../../../db/config.js";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 
-export const createDoctorService = async (data) => {
+export const createDoctorService = async (data, creator) => {
+
+    const Createdby = creator ? creator.id : null;
+    const Updatedby = creator ? creator.id : null;
+    const createdbyname = creator ? creator.username : null;
+    const updatedbyname = creator ? creator.username : null;
+
+    const custom_id = generateCustomId("DOC");
+
     const query = `
-    INSERT INTO doctors (name, email, password, phone, description, fee, experience, speciality, is_active, profile_image)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    INSERT INTO doctors (name, email, password, phone, description, fee, experience, speciality, is_active, profile_image, created_by, updated_by, created_by_name, updated_by_name, custom_id)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
     RETURNING *`;
     try {
-        const result = await pool.query(query, [data.name, data.email, data.password, data.phone, data.description, data.fee, data.experience, data.speciality, data.is_active, data.profile_image]);
+        const result = await pool.query(query, [data.name, data.email, data.password, data.phone, data.description, data.fee, data.experience, data.speciality, data.is_active, data.profile_image, Createdby, Updatedby, createdbyname, updatedbyname, custom_id]);
         console.log("✅ Doctor created successfully");
         return result.rows[0];
     } catch (error) {

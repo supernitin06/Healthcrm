@@ -11,6 +11,8 @@ export const createStaffTable = async () => {
       role_id INT REFERENCES roles(id) ON DELETE SET NULL,
       role_name VARCHAR(50),
       team_name VARCHAR(50),
+      created_by_name VARCHAR(50),
+      updated_by_name VARCHAR(50),
       special_position VARCHAR(50),
       reset_token VARCHAR(255),
       reset_token_expiry TIMESTAMP DEFAULT (CURRENT_TIMESTAMP + INTERVAL '15 minutes'),
@@ -24,6 +26,13 @@ export const createStaffTable = async () => {
   try {
     await pool.query(query);
     // Ensure role_name column exists (in case table was created before this column was added)
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS role_name VARCHAR(50)`);
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS created_by INT`);
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS updated_by INT`);
+    // Ensure other potentially missing columns are present
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS created_by_name VARCHAR(50)`);
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS updated_by_name VARCHAR(50)`);
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS custom_id VARCHAR(50) UNIQUE`);
 
     console.log("✅ Users table created (staff)");
   } catch (error) {

@@ -4,13 +4,26 @@ export const createRoleTable = async () => {
     const query = `
     CREATE TABLE IF NOT EXISTS roles (
       id SERIAL PRIMARY KEY,
-      name VARCHAR(50) NOT NULL UNIQUE
-      
+      name VARCHAR(50) NOT NULL UNIQUE,
+      created_by INT,
+      updated_by INT,
+      created_by_name VARCHAR(50),
+      updated_by_name VARCHAR(50),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      custom_id VARCHAR(50) UNIQUE
     );
   `;
 
     try {
         await pool.query(query);
+        await pool.query(`ALTER TABLE roles ADD COLUMN IF NOT EXISTS created_by INT`);
+        await pool.query(`ALTER TABLE roles ADD COLUMN IF NOT EXISTS updated_by INT`);
+        await pool.query(`ALTER TABLE roles ADD COLUMN IF NOT EXISTS created_by_name VARCHAR(50)`);
+        await pool.query(`ALTER TABLE roles ADD COLUMN IF NOT EXISTS updated_by_name VARCHAR(50)`);
+        await pool.query(`ALTER TABLE roles ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`);
+        await pool.query(`ALTER TABLE roles ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP`);
+        await pool.query(`ALTER TABLE roles ADD COLUMN IF NOT EXISTS custom_id VARCHAR(50) UNIQUE`);
         console.log("✅ roles table created");
     } catch (error) {
         console.error("❌ Error creating roles table", error);

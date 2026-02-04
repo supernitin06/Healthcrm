@@ -14,10 +14,10 @@ import {
 export const createRoleController = async (req, res) => {
     try {
         const { name } = req.body;
-        const role = await createRoleService(name);
+        const role = await createRoleService(name, req.user);
         res.status(201).json({ message: "Role created successfully", role });
     } catch (error) {
-        if (error.code === '23505') { // Unique constraint violation
+        if (error.code === '23505' || error.message === "Role already exists") { // Unique constraint violation or manual check
             return res.status(409).json({ error: "Role already exists" });
         }
         console.error("Error creating role:", error);
