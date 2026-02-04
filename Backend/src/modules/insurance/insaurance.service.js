@@ -1,15 +1,16 @@
 import pool from "../../../db/config.js";
-
+import { generateCustomId } from "../../utils/idGenerator.js";
 import { getUserById } from "../authuser/authuser.service.js";
 
 export const createInsurance = async (insurance) => {
+    const custom_id = generateCustomId("INS");
     const query = `
-    INSERT INTO insurance (name, description, price)
-    VALUES ($1, $2, $3)
+    INSERT INTO insurance (name, description, price, custom_id)
+    VALUES ($1, $2, $3, $4)
     RETURNING *;
   `;
     try {
-        const result = await pool.query(query, [insurance.name, insurance.description, insurance.price]);
+        const result = await pool.query(query, [insurance.name, insurance.description, insurance.price, custom_id]);
         console.log("✅ Insurance created successfully");
         return result.rows[0];
     } catch (error) {

@@ -1,10 +1,25 @@
 import pool from "../../../db/config.js";
 import bcrypt from "bcrypt";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
-export const registerStaff = async ({ username, email, password, role_id, profile_image }) => {
+export const registerStaff = async ({ username, email, password, role_id, profile_image }, creator) => {
     if (!username || !email || !password || !role_id) {
         throw new Error("All fields are required");
     }
+
+    const checkRole = await pool.query("SELECT * FROM roles WHERE id = $1", [role_id]);
+    if (checkRole.rows.length === 0) {
+        throw new Error("Role not found");
+    }
+    const checkEmail = await pool.query("SELECT * FROM staff WHERE email = $1", [email]);
+    if (checkEmail.rows.length > 0) {
+        throw new Error("Email already exists");
+    }
+
+    const Createdby = creator ? creator.id : null;
+    const Updatedby = creator ? creator.id : null;
+    const createdbyname = creator ? creator.username : null;
+    const updatedbyname = creator ? creator.username : null;
 
     // 🔹 Check role first
     const roleResult = await pool.query(
@@ -18,15 +33,16 @@ export const registerStaff = async ({ username, email, password, role_id, profil
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const custom_id = generateCustomId("STF");
 
     // 🔹 Insert staff
     const staffResult = await pool.query(
         `
-    INSERT INTO staff (username, email, password, role_id, role_name, profile_image)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING id, username, email, role_name, profile_image, created_at;
+    INSERT INTO staff (username, email, password, role_id, role_name, profile_image, created_by, updated_by, created_by_name, updated_by_name, custom_id)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+    RETURNING id, custom_id, username, email, role_name, profile_image, created_at;
     `,
-        [username, email, hashedPassword, role_id, role.name, profile_image]
+        [username, email, hashedPassword, role_id, role.name, profile_image, Createdby, Updatedby, createdbyname, updatedbyname, custom_id]
     );
 
     return staffResult.rows[0];

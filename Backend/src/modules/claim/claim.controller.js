@@ -16,7 +16,7 @@ export const ApplyClaimController = async (req, res) => {
          documents_upload,
          reason,
          status: 'pending'
-      });
+      }, req.user);
 
       res.status(201).json({
          success: true,

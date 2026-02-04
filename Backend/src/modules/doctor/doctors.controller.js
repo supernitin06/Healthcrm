@@ -5,7 +5,7 @@ import { createDoctorService, DeleteAppoitmentService, deleteDoctorService, getD
 export const CreateDoctorController = async (req, res) => {
     try {
         const profile_image = req.file?.path || null;
-        const doctor = await createDoctorService({ ...req.body, profile_image });
+        const doctor = await createDoctorService({ ...req.body, profile_image }, req.user);
         res.status(201).json(doctor);
     } catch (error) {
         res.status(500).json({ error: error.message });

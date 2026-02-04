@@ -1,9 +1,15 @@
 import pool from "../../../db/config.js";
 
-export const createTeamService = async (name) => {
+export const createTeamService = async (name, creator) => {
+
+    const Createdby = creator ? creator.id : null;
+    const Updatedby = creator ? creator.id : null;
+    const createdbyname = creator ? creator.username : null;
+    const updatedbyname = creator ? creator.username : null;
+
     const result = await pool.query(
-        "INSERT INTO teams (name) VALUES ($1) RETURNING *",
-        [name]
+        "INSERT INTO teams (name, created_by, updated_by, created_by_name, updated_by_name) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+        [name, Createdby, Updatedby, createdbyname, updatedbyname]
     );
     return result.rows[0];
 };

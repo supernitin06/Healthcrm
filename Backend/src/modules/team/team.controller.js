@@ -9,7 +9,7 @@ import {
 export const createTeamController = async (req, res) => {
     try {
         const { name } = req.body;
-        const team = await createTeamService(name);
+        const team = await createTeamService(name, req.user);
         res.status(201).json({ message: "Team created successfully", team });
     } catch (error) {
         if (error.code === '23505') {

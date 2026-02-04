@@ -68,7 +68,13 @@ export const insertDefaultRolePermissions = async () => {
       ('GET_HEALTH_PACKAGE','health_package'),
       ('ASSIGN_HEALTH_PACKAGE','health_package'),
       ('GET_ASSIGNED_HEALTH_PACKAGE','health_package'),
-      ('DELETE_ASSIGNED_HEALTH_PACKAGE','health_package')
+      ('DELETE_ASSIGNED_HEALTH_PACKAGE','health_package'),
+
+      ('CREATE_PERMISSION','permission'),
+      ('ASSIGN_PERMISSION','permission'),
+      ('REMOVE_PERMISSION','permission'),
+      ('UPDATE_PERMISSION','permission'),
+      ('GET_PERMISSION','permission')
 
     ON CONFLICT (name) DO NOTHING;
   `;
@@ -92,7 +98,7 @@ export const createRolePermissionTable = async () => {
       role_id INT NOT NULL,
       permission_id INT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
+      permission_assigned_by INT NOT NULL,
       CONSTRAINT fk_role
         FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
 
@@ -103,6 +109,9 @@ export const createRolePermissionTable = async () => {
     );`;
   try {
     await pool.query(query);
+    // Add custom_id to permissions table as well
+    await pool.query(`ALTER TABLE permissions ADD COLUMN IF NOT EXISTS custom_id VARCHAR(50) UNIQUE`);
+    await pool.query(`ALTER TABLE role_permissions ADD COLUMN IF NOT EXISTS permission_assigned_by INT`);
     console.log("✅ role_permissions table created");
   }
   catch (error) {

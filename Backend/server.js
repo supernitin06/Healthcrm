@@ -17,6 +17,7 @@ app.use(
 
 // Middleware for parsing JSON bodies
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 dotenv.config();
 /**

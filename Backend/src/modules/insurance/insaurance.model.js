@@ -1,7 +1,7 @@
 import pool from "../../../db/config.js";
 
 export const createInsuranceTable = async () => {
-    const query = `
+  const query = `
     CREATE TABLE IF NOT EXISTS insurance (
       id SERIAL PRIMARY KEY,
       name VARCHAR(50) NOT NULL,
@@ -14,21 +14,23 @@ export const createInsuranceTable = async () => {
       specialist_coverage TEXT,
       claim_amount DECIMAL(10, 2) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      custom_id VARCHAR(50) UNIQUE
     );
   `;
-    try {
-        await pool.query(query);
-        console.log("✅ Insurance table created");
-    } catch (error) {
-        console.error("❌ Error creating insurance table:", error);
-    }
+  try {
+    await pool.query(query);
+    await pool.query(`ALTER TABLE insurance ADD COLUMN IF NOT EXISTS custom_id VARCHAR(50) UNIQUE`);
+    console.log("✅ Insurance table created");
+  } catch (error) {
+    console.error("❌ Error creating insurance table:", error);
+  }
 };
 
 
 
 export const UserInsuranceTable = async () => {
-    const query = `
+  const query = `
     CREATE TABLE IF NOT EXISTS user_insurance (
       user_insurance_id SERIAL PRIMARY KEY,
       user_id INT REFERENCES users(id) ON DELETE CASCADE,
@@ -44,10 +46,10 @@ export const UserInsuranceTable = async () => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`;
-    try {
-        await pool.query(query);
-        console.log("✅ User insurance table created");
-    } catch (error) {
-        console.error("❌ Error creating user insurance table:", error);
-    }
+  try {
+    await pool.query(query);
+    console.log("✅ User insurance table created");
+  } catch (error) {
+    console.error("❌ Error creating user insurance table:", error);
+  }
 };
