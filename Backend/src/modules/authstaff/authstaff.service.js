@@ -33,16 +33,16 @@ export const registerStaff = async ({ username, email, password, role_id, profil
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const custom_id = generateCustomId("STF");
+    const id = generateCustomId("STF");
 
     // 🔹 Insert staff
     const staffResult = await pool.query(
         `
-    INSERT INTO staff (username, email, password, role_id, role_name, profile_image, created_by, updated_by, created_by_name, updated_by_name, custom_id)
+    INSERT INTO staff (id, username, email, password, role_id, role_name, profile_image, created_by, updated_by, created_by_name, updated_by_name)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-    RETURNING id, custom_id, username, email, role_name, profile_image, created_at;
+    RETURNING id, username, email, role_name, profile_image, created_at;
     `,
-        [username, email, hashedPassword, role_id, role.name, profile_image, Createdby, Updatedby, createdbyname, updatedbyname, custom_id]
+        [id, username, email, hashedPassword, role_id, role.name, profile_image, Createdby, Updatedby, createdbyname, updatedbyname]
     );
 
     return staffResult.rows[0];
@@ -178,15 +178,16 @@ export const registerSuperAdmin = async ({ username, email, password, role_id, p
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const id = generateCustomId("STF");
 
     // 🔹 Insert superadmin staff
     const staffResult = await pool.query(
         `   
-    INSERT INTO staff (username, email, password, role_id, role_name, profile_image)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO staff (id, username, email, password, role_id, role_name, profile_image)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING id, username, email, role_name, profile_image, created_at;   
     `,
-        [username, email, hashedPassword, role.id, role.name, profile_image]
+        [id, username, email, hashedPassword, role.id, role.name, profile_image]
     );
 
     return staffResult.rows[0];

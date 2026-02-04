@@ -20,11 +20,13 @@ export const getPermissionByIdService = async (id) => {
 // Assign permission to role
 // Assign permission to role
 // Assign permission to role
-
+    
 export const assignPermissionToRoleService = async (roleId, permissionId, assignerId) => {
+    const role = await pool.query("SELECT * FROM roles WHERE id = $1", [roleId]);
+    const permission = await pool.query("SELECT * FROM permissions WHERE id = $1", [permissionId]);
     const result = await pool.query(
-        "INSERT INTO role_permissions (role_id, permission_id,permission_assigned_by) VALUES ($1, $2,$3) RETURNING *",
-        [roleId, permissionId, assignerId]
+        "INSERT INTO role_permissions (role_id, permission_id,role_name,permission_name,permission_assigned_by) VALUES ($1, $2,$3,$4,$5) RETURNING *",
+        [roleId, permissionId, role.rows[0].name, permission.rows[0].name, assignerId]
     );
     return result.rows[0];
 };
@@ -55,10 +57,10 @@ export const getPermissionsByRoleService = async (roleId) => {
 };
 
 export const createPermissionService = async (name, permission_type) => {
-    const custom_id = generateCustomId("PER");
+    const id = generateCustomId("PER");
     const result = await pool.query(
-        "INSERT INTO permissions (name, permission_type, custom_id) VALUES ($1, $2, $3) RETURNING *",
-        [name, permission_type, custom_id]
+        "INSERT INTO permissions (id, name, permission_type) VALUES ($1, $2, $3) RETURNING *",
+        [id, name, permission_type]
     );
 
     return result.rows[0];

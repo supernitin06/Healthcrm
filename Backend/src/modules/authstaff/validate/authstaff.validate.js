@@ -1,4 +1,4 @@
-import {body} from "express-validator";
+import { body } from "express-validator";
 
 
 export const registerStaffValidation = [
@@ -23,6 +23,6 @@ export const registerStaffValidation = [
     body("role_id")
         .notEmpty()
         .withMessage("Role ID is required")
-        .isNumeric()
-        .withMessage("Role ID must be numeric"),
+        .isString()
+        .withMessage("Role ID must be a string"),
 ];

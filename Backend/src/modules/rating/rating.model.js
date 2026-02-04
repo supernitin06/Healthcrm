@@ -4,32 +4,32 @@ export const createRatingTables = async () => {
     const tables = [
         `CREATE TABLE IF NOT EXISTS doctor_ratings (
             id SERIAL PRIMARY KEY,
-            doctor_id INT REFERENCES doctors(id) ON DELETE CASCADE,
-            user_id INT REFERENCES users(id) ON DELETE CASCADE,
+            doctor_id VARCHAR(50) REFERENCES doctors(id) ON DELETE CASCADE,
+            user_id VARCHAR(50) REFERENCES users(id) ON DELETE CASCADE,
             rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
             review_msg TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`,
         `CREATE TABLE IF NOT EXISTS health_test_ratings (
             id SERIAL PRIMARY KEY,
-            health_test_id INT REFERENCES health_tests(id) ON DELETE CASCADE,
-            user_id INT REFERENCES users(id) ON DELETE CASCADE,
+            health_test_id VARCHAR(50) REFERENCES health_tests(id) ON DELETE CASCADE,
+            user_id VARCHAR(50) REFERENCES users(id) ON DELETE CASCADE,
             rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
             review_msg TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`,
         `CREATE TABLE IF NOT EXISTS staff_ratings (
             id SERIAL PRIMARY KEY,
-            staff_id INT REFERENCES staff(id) ON DELETE CASCADE,
-            user_id INT REFERENCES users(id) ON DELETE CASCADE,
+            staff_id VARCHAR(50) REFERENCES staff(id) ON DELETE CASCADE,
+            user_id VARCHAR(50) REFERENCES users(id) ON DELETE CASCADE,
             rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
             review_msg TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`,
         `CREATE TABLE IF NOT EXISTS insurance_ratings (
             id SERIAL PRIMARY KEY,
-            insurance_id INT REFERENCES insurance(id) ON DELETE CASCADE,
-            user_id INT REFERENCES users(id) ON DELETE CASCADE,
+            insurance_id VARCHAR(50) REFERENCES insurance(id) ON DELETE CASCADE,
+            user_id VARCHAR(50) REFERENCES users(id) ON DELETE CASCADE,
             rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
             review_msg TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

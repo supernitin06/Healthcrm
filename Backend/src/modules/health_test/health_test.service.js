@@ -1,15 +1,17 @@
 import pool from "../../../db/config.js";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 // --- Health Test CRUD ---
 
 export const createHealthTest = async (data) => {
+    const id = generateCustomId("TST");
     const query = `
-    INSERT INTO health_tests (name, description, price)
-    VALUES ($1, $2, $3)
+    INSERT INTO health_tests (id, name, description, price)
+    VALUES ($1, $2, $3, $4)
     RETURNING *;
   `;
     try {
-        const result = await pool.query(query, [data.name, data.description, data.price]);
+        const result = await pool.query(query, [id, data.name, data.description, data.price]);
         console.log("✅ Health Test created successfully");
         return result.rows[0];
     } catch (error) {

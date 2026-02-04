@@ -3,7 +3,7 @@ import { generateCustomId } from "../../utils/idGenerator.js";
 
 export const createRoleService = async (name, creator) => {
 
-    const checkRole = await pool.query("SELECT* FROM roles WHERE name = $1", [name]);
+    const checkRole = await pool.query("SELECT * FROM roles WHERE name = $1", [name]);
     if (checkRole.rows.length > 0) {
         throw new Error("Role already exists");
     }
@@ -13,12 +13,12 @@ export const createRoleService = async (name, creator) => {
     const createdbyname = creator ? creator.username : null;
     const updatedbyname = creator ? creator.username : null;
 
-    const custom_id = generateCustomId("ROL");
+    const id = generateCustomId("ROL");
 
     try {
         const result = await pool.query(
-            "INSERT INTO roles (name, created_by, updated_by, created_by_name, updated_by_name, custom_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-            [name, Createdby, Updatedby, createdbyname, updatedbyname, custom_id]
+            "INSERT INTO roles (id, name, created_by, updated_by, created_by_name, updated_by_name) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+            [id, name, Createdby, Updatedby, createdbyname, updatedbyname]
         );
         return result.rows[0];
     } catch (error) {

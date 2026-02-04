@@ -1,14 +1,16 @@
 import pool from "../../../db/config.js";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 
 export const createOffer = async (offer) => {
+    const id = generateCustomId("OFF");
     const query = `
-    INSERT INTO offer (name, description, price, created_at, updated_at)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO offer (id, name, description, price, created_at, updated_at)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `;
     try {
-        const result = await pool.query(query, [offer.name, offer.description, offer.price, offer.created_at, offer.updated_at]);
+        const result = await pool.query(query, [id, offer.name, offer.description, offer.price, offer.created_at, offer.updated_at]);
         console.log("✅ Offer created successfully");
         return result.rows[0];
     } catch (error) {

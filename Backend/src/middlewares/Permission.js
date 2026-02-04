@@ -21,10 +21,10 @@ export const can = (permission) => {
 
       const role_name = roleResult.rows[0].name;
 
-      if (role_name === "superadmin") {
+      if (role_name === "Superadmin") {
         return next();
       }
-
+ 
       const permissionResult = await pool.query("SELECT id FROM permissions WHERE name = $1", [permission]);
 
       if (permissionResult.rows.length === 0) {

@@ -1,5 +1,6 @@
 import pool from "../../../db/config.js";
 import { getAssignInsuranceToUser } from "../insurance/insaurance.service.js";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 
 export const ApplyClaimService = async ({ user_id, insurance_id, claim_amount, documents_upload,
@@ -10,16 +11,18 @@ export const ApplyClaimService = async ({ user_id, insurance_id, claim_amount, d
     const createdbyname = creator ? creator.username : null;
     const updatedbyname = creator ? creator.username : null;
 
+    const id = generateCustomId("CLM");
+
     try {
         const { rows } = await pool.query(
             `
-            INSERT INTO claims (user_id, insurance_id, claim_amount, documents_upload, 
+            INSERT INTO claims (id, user_id, insurance_id, claim_amount, documents_upload, 
                 reason, status, approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at,
                 created_by, updated_by, created_by_name, updated_by_name)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
             RETURNING *;
             `,
-            [user_id, insurance_id, claim_amount, documents_upload, reason, status,
+            [id, user_id, insurance_id, claim_amount, documents_upload, reason, status,
                 approved_amount, rejected_amount, approved_by, rejected_by, approved_at, rejected_at,
                 Createdby, Updatedby, createdbyname, updatedbyname]
         );

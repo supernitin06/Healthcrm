@@ -1,12 +1,14 @@
 import pool from "../../../db/config.js";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 export const createMedicalHistoryService = async (userId, data) => {
     const { category, title, details, recorded_date, doctor_id } = data;
+    const id = generateCustomId("MED");
     const query = `
-    INSERT INTO medical_history (user_id, category, title, details, recorded_date, doctor_id)
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO medical_history (id, user_id, category, title, details, recorded_date, doctor_id)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;`;
-    const result = await pool.query(query, [userId, category, title, details, recorded_date || new Date(), doctor_id]);
+    const result = await pool.query(query, [id, userId, category, title, details, recorded_date || new Date(), doctor_id]);
     return result.rows[0];
 };
 

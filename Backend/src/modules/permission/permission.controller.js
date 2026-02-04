@@ -40,7 +40,7 @@ export const assignPermissionController = async (req, res) => {
         const { role_id, permission_id } = req.body;
         const assignerId = req.user.id;
         const assignment = await assignPermissionToRoleService(role_id, permission_id,assignerId);
-        res.status(201).json({ message: "Permission assigned to role successfully", assignment });
+        res.status(201).json({ message: `${req.user.username} has assigned permission  successfully`, assignment });
     } catch (error) {
         if (error.code === '23505') {
             return res.status(409).json({ error: "Permission already assigned to this role" });
@@ -49,6 +49,8 @@ export const assignPermissionController = async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+
 
 export const removePermissionController = async (req, res) => {
     try {

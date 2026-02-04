@@ -11,11 +11,11 @@ export const registerUser = async ({ username, email, password, profile_image })
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const custom_id = generateCustomId("USR");
+  const id = generateCustomId("USR");
 
   const { rows } = await pool.query(
     `
-    INSERT INTO users (username, email, password, profile_image, custom_id) 
+    INSERT INTO users (id, username, email, password, profile_image) 
     VALUES (
       $1,
       $2,
@@ -23,9 +23,9 @@ export const registerUser = async ({ username, email, password, profile_image })
       $4,
       $5
     )
-    RETURNING id, custom_id, username, email, profile_image, created_at;
+    RETURNING id, username, email, profile_image, created_at;
     `,
-    [username, email, hashedPassword, profile_image, custom_id]
+    [id, username, email, hashedPassword, profile_image]
   );
 
   return rows[0];

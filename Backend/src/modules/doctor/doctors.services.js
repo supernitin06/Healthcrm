@@ -9,14 +9,14 @@ export const createDoctorService = async (data, creator) => {
     const createdbyname = creator ? creator.username : null;
     const updatedbyname = creator ? creator.username : null;
 
-    const custom_id = generateCustomId("DOC");
+    const id = generateCustomId("DOC");
 
     const query = `
-    INSERT INTO doctors (name, email, password, phone, description, fee, experience, speciality, is_active, profile_image, created_by, updated_by, created_by_name, updated_by_name, custom_id)
+    INSERT INTO doctors (id, name, email, password, phone, description, fee, experience, speciality, is_active, profile_image, created_by, updated_by, created_by_name, updated_by_name)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
     RETURNING *`;
     try {
-        const result = await pool.query(query, [data.name, data.email, data.password, data.phone, data.description, data.fee, data.experience, data.speciality, data.is_active, data.profile_image, Createdby, Updatedby, createdbyname, updatedbyname, custom_id]);
+        const result = await pool.query(query, [id, data.name, data.email, data.password, data.phone, data.description, data.fee, data.experience, data.speciality, data.is_active, data.profile_image, Createdby, Updatedby, createdbyname, updatedbyname]);
         console.log("✅ Doctor created successfully");
         return result.rows[0];
     } catch (error) {

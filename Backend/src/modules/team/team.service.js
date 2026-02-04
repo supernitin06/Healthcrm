@@ -1,4 +1,5 @@
 import pool from "../../../db/config.js";
+import { generateCustomId } from "../../utils/idGenerator.js";
 
 export const createTeamService = async (name, creator) => {
 
@@ -6,10 +7,11 @@ export const createTeamService = async (name, creator) => {
     const Updatedby = creator ? creator.id : null;
     const createdbyname = creator ? creator.username : null;
     const updatedbyname = creator ? creator.username : null;
+    const id = generateCustomId("TEM");
 
     const result = await pool.query(
-        "INSERT INTO teams (name, created_by, updated_by, created_by_name, updated_by_name) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-        [name, Createdby, Updatedby, createdbyname, updatedbyname]
+        "INSERT INTO teams (id, name, created_by, updated_by, created_by_name, updated_by_name) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+        [id, name, Createdby, Updatedby, createdbyname, updatedbyname]
     );
     return result.rows[0];
 };

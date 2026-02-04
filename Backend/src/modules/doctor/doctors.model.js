@@ -3,7 +3,7 @@ import pool from "../../../db/config.js";
 export const DoctorTable = () => {
   const query = `
     CREATE TABLE IF NOT EXISTS doctors (
-      id SERIAL PRIMARY KEY,
+      id VARCHAR(50) PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
       password VARCHAR(255) NOT NULL,
@@ -14,13 +14,13 @@ export const DoctorTable = () => {
       speciality VARCHAR(255) NOT NULL,
       is_active BOOLEAN DEFAULT TRUE,
       approved BOOLEAN DEFAULT FALSE,
-      created_by INT,
-      updated_by INT,
+      created_by VARCHAR(50),
+      updated_by VARCHAR(50),
       created_by_name VARCHAR(50),
       updated_by_name VARCHAR(50),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      custom_id VARCHAR(50) UNIQUE
+      profile_image VARCHAR(255)
     );
   `;
 
@@ -28,11 +28,12 @@ export const DoctorTable = () => {
     if (err) {
       console.error(err);
     } else {
-      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS created_by INT`);
-      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS updated_by INT`);
+      // Ensure columns exist or type migration (manual assumption)
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS created_by VARCHAR(50)`);
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS updated_by VARCHAR(50)`);
       await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS created_by_name VARCHAR(50)`);
       await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS updated_by_name VARCHAR(50)`);
-      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS custom_id VARCHAR(50) UNIQUE`);
+      await pool.query(`ALTER TABLE doctors ADD COLUMN IF NOT EXISTS profile_image VARCHAR(255)`);
       console.log("Doctors table created successfully");
     }
   });
@@ -43,8 +44,8 @@ export const DoctorPatientTable = () => {
   const query = `
     CREATE TABLE IF NOT EXISTS doctor_patient (
       id SERIAL PRIMARY KEY,
-      doctor_id INT REFERENCES doctors(id) ON DELETE CASCADE,
-      patient_id INT REFERENCES users(id) ON DELETE CASCADE,
+      doctor_id VARCHAR(50) REFERENCES doctors(id) ON DELETE CASCADE,
+      patient_id VARCHAR(50) REFERENCES users(id) ON DELETE CASCADE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       specil_detail VARCHAR(255) NOT NULL,

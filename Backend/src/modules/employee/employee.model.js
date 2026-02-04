@@ -6,8 +6,8 @@ export const AssignUserToEmployeeTable = async () => {
     const query = `
     CREATE TABLE IF NOT EXISTS EmployeeUserAssignTable (
     id SERIAL PRIMARY KEY,
-    employee_id INT REFERENCES staff(id),
-    user_id INT REFERENCES users(id),
+    employee_id VARCHAR(50) REFERENCES staff(id),
+    user_id VARCHAR(50) REFERENCES users(id),
     user_name VARCHAR(100),
     user_email VARCHAR(100),
     user_status BOOLEAN DEFAULT true,

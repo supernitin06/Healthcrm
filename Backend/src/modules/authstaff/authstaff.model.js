@@ -3,12 +3,12 @@ import pool from "../../../db/config.js";
 export const createStaffTable = async () => {
   const query = `
     CREATE TABLE IF NOT EXISTS staff (
-      id SERIAL PRIMARY KEY,
+      id VARCHAR(50) PRIMARY KEY,
       username VARCHAR(50) NOT NULL, 
       email VARCHAR(100) NOT NULL UNIQUE,
       password VARCHAR(255) NOT NULL,
-      team_id INT REFERENCES teams(id) ON DELETE SET NULL,
-      role_id INT REFERENCES roles(id) ON DELETE SET NULL,
+      team_id VARCHAR(50) REFERENCES teams(id) ON DELETE SET NULL,
+      role_id VARCHAR(50) REFERENCES roles(id) ON DELETE SET NULL,
       role_name VARCHAR(50),
       team_name VARCHAR(50),
       created_by_name VARCHAR(50),
@@ -20,19 +20,22 @@ export const createStaffTable = async () => {
       is_active BOOLEAN DEFAULT true,
       last_login TIMESTAMP, 
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      created_by VARCHAR(50),
+      updated_by VARCHAR(50)
     );
   `;
   try {
     await pool.query(query);
-    // Ensure role_name column exists (in case table was created before this column was added)
+    // Ensure columns exist
     await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS role_name VARCHAR(50)`);
-    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS created_by INT`);
-    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS updated_by INT`);
-    // Ensure other potentially missing columns are present
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS created_by VARCHAR(50)`);
+    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS updated_by VARCHAR(50)`);
     await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS created_by_name VARCHAR(50)`);
     await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS updated_by_name VARCHAR(50)`);
-    await pool.query(`ALTER TABLE staff ADD COLUMN IF NOT EXISTS custom_id VARCHAR(50) UNIQUE`);
+
+    // Note: If altering existing INT columns to VARCHAR, explicitly might be needed. 
+    // But assuming fresh setup or manual migration for major type change.
 
     console.log("✅ Users table created (staff)");
   } catch (error) {
