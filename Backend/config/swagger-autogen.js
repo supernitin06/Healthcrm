@@ -20,7 +20,7 @@ const doc = {
   ],
   tags: [
     {
-      name: 'staff',
+      name: 'Staff',
 
       description: 'Staff Management'
     },
